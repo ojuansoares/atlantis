@@ -10,5 +10,4 @@ export default class Armazem {
     public get Clientes() {
         return this.clientes
     }
-
 }
