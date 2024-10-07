@@ -1,6 +1,6 @@
-import Processo from "../abstracoes/processo";
-import Armazem from "../dominio/armazem";
-import Cliente from "../modelos/cliente";
+import Processo from "../../abstracoes/processo";
+import Armazem from "../../dominio/armazem";
+import Cliente from "../../modelos/cliente";
 
 export default class ListagemTitulares extends Processo {
     private clientes: Cliente[]
@@ -10,6 +10,6 @@ export default class ListagemTitulares extends Processo {
     }
     processar(): void {
         console.clear()
-        console.log('Iniciando a listagem dos clientes titulares...')
+        console.log('Iniciando a listagem dos dependentes por titular específico...')
     }
 }
