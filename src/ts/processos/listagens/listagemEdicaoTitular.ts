@@ -1,0 +1,31 @@
+import Processo from "../../abstracoes/processo";
+import Armazem from "../../dominio/armazem";
+import ImpressorEdicaoCliente from "../../impressores/impressorEdicaoCliente";
+import Impressor from "../../interfaces/impressor";
+import Cliente from "../../modelos/cliente";
+
+export default class ListagemEdicaoTitular extends Processo {
+    private clientes: Cliente[]
+    private impressor!: Impressor
+    constructor() {
+        super()
+        this.clientes = Armazem.InstanciaUnica.Clientes
+    }
+    processar(): void {
+        console.clear()
+        console.log('Clientes Titulares:')
+        this.clientes.forEach((cliente, index) => {
+            if (this.titular(cliente)) {
+                this.impressor = new ImpressorEdicaoCliente(cliente)
+                console.log(`${index}: ${this.impressor.imprimir()}`)
+            }
+        })
+    }
+    private titular(cliente: Cliente): boolean {
+        let verificacao = false
+        if (cliente.Titular == undefined) {
+            verificacao = true
+        }
+        return verificacao
+    }
+}
