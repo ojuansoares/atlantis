@@ -9,6 +9,7 @@ export default class TipoListagemClientes extends Processo {
     }
     
     processar(): void {
+        console.clear()
         this.menu.mostrar()
         this.opcao = this.entrada.receberNumero('Qual a opção desejada?')
         switch (this.opcao) {

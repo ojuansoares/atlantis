@@ -6,6 +6,7 @@ import CadastroEnderecoTitular from "./cadastroEnderecoTitular";
 
 export default class CadastroClienteTitular extends Processo {
     processar(): void {
+        console.clear()
         console.log('Iniciando o cadastro de um novo cliente...')
 
         let nome: string;

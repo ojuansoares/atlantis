@@ -9,6 +9,7 @@ export default class TipoEdicaoCliente extends Processo {
         this.menu = new MenuTipoEdicaoCliente()
     }
     processar(): void {
+        console.clear()
         this.menu.mostrar()
         this.opcao = this.entrada.receberNumero('Qual opção desejada?')
         

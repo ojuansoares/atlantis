@@ -4,6 +4,7 @@ import ListagemEdicaoTitular from "../listagens/listagemEdicaoTitular";
 
 export default class DelecaoClienteTitular extends Processo {
     processar(): void {
+        console.clear()
         let armazem = Armazem.InstanciaUnica
 
         console.log('Iniciando a deleção de um cliente titular...')

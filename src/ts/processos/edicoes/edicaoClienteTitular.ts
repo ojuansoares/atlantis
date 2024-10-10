@@ -7,6 +7,7 @@ import EdicaoEnderecoTitular from "./edicaoEnderecoTitular";
 
 export default class EdicaoClienteTitular extends Processo {
     processar(): void {
+        console.clear()
 
         const quantidadeClientes = Armazem.InstanciaUnica.Clientes.length
         if (quantidadeClientes === 0) {
