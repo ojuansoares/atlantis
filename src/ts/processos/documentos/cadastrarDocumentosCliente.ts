@@ -18,9 +18,13 @@ export default class CadastrarDocumentosCliente extends Processo {
         console.log('Inciando o cadastro de documentos...')
         while (this.execucao) {
             this.menu.mostrar()
-            this.opcao = this.entrada.receberNumero('Qual opção desejada?')
+            this.opcao = this.entrada.receberNumero('Qual opção desejada? (CPF Obrigatório)')
             switch (this.opcao) {
                 case 1:
+                    if (this.cliente.Documentos.some(doc => doc.Tipo === 'Cadastro de Pessoas Física')) {
+                        console.log('Já existe um CPF cadastrado para este cliente!')
+                        continue
+                    }
                     this.processo = new CadastroCpf(this.cliente)
                     this.processo.processar()
                     break
@@ -32,6 +36,10 @@ export default class CadastrarDocumentosCliente extends Processo {
                     this.processo = new CadastroPassaporte(this.cliente)
                     this.processo.processar()
                 case 0:
+                    if (!this.cliente.Documentos.some(doc => doc.Tipo === 'Cadastro de Pessoas Física')) {
+                        console.log('É necessário cadastrar pelo menos um CPF')
+                        continue
+                    }
                     this.execucao = false
                     break
                 default:
