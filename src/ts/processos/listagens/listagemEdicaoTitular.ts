@@ -14,10 +14,10 @@ export default class ListagemEdicaoTitular extends Processo {
     processar(): void {
         console.clear()
         console.log('Clientes Titulares:')
-        this.clientes.forEach((cliente, index) => {
+        this.clientes.forEach((cliente) => {
             if (this.titular(cliente)) {
                 this.impressor = new ImpressorEdicaoCliente(cliente)
-                console.log(`${index}: ${this.impressor.imprimir()}`)
+                console.log(`${this.impressor.imprimir()}`)
             }
         })
     }
