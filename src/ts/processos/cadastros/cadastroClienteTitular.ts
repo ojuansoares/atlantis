@@ -7,20 +7,42 @@ import CadastroEnderecoTitular from "./cadastroEnderecoTitular";
 export default class CadastroClienteTitular extends Processo {
     processar(): void {
         console.log('Iniciando o cadastro de um novo cliente...')
-        let nome = this.entrada.receberTexto('Qual o nome do novo cliente?')
-        let nomeSocial = this.entrada.receberTexto('Qual o nome social do novo cliente?')
-        let dataNascimento = this.entrada.receberData('Qual a data de nascimento?')
-        let cliente = new Cliente(nome, nomeSocial, dataNascimento)
 
-        this.processo = new CadastroEnderecoTitular(cliente)
-        this.processo.processar()
+        let nome: string;
+        do {
+            nome = this.entrada.receberTexto('Qual o nome do novo cliente?');
+            if (!nome) {
+                console.log('Nome não pode ser vazio. Por favor, insira um nome válido.');
+            }
+        } while (!nome);
 
-        this.processo = new CadastrarDocumentosCliente(cliente)
-        this.processo.processar()
+        let nomeSocial: string;
+        do {
+            nomeSocial = this.entrada.receberTexto('Qual o nome social do novo cliente?');
+            if (!nomeSocial) {
+                console.log('Nome social não pode ser vazio. Por favor, insira um nome social válido.');
+            }
+        } while (!nomeSocial);
 
-        let armazem = Armazem.InstanciaUnica
-        armazem.Clientes.push(cliente)
+        let dataNascimento: Date;
+        do {
+            dataNascimento = this.entrada.receberData('Qual a data de nascimento?');
+            if (!dataNascimento || isNaN(dataNascimento.getTime())) {
+                console.log('Data de nascimento inválida. Por favor, insira uma data válida.');
+            }
+        } while (!dataNascimento || isNaN(dataNascimento.getTime()));
 
-        console.log('Finalizando o cadastro do cliente...')
+        let cliente = new Cliente(nome, nomeSocial, dataNascimento);
+
+        this.processo = new CadastroEnderecoTitular(cliente);
+        this.processo.processar();
+
+        this.processo = new CadastrarDocumentosCliente(cliente);
+        this.processo.processar();
+
+        let armazem = Armazem.InstanciaUnica;
+        armazem.Clientes.push(cliente);
+
+        console.log('Finalizando o cadastro do cliente...');
     }
 }
