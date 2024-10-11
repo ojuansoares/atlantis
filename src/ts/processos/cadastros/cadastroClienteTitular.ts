@@ -3,6 +3,7 @@ import Armazem from "../../dominio/armazem";
 import Cliente from "../../modelos/cliente";
 import CadastrarDocumentosCliente from "../documentos/cadastrarDocumentosCliente";
 import CadastroEnderecoTitular from "./cadastroEnderecoTitular";
+import CadastroTelefone from "./cadastroTelefone";
 
 export default class CadastroClienteTitular extends Processo {
     processar(): void {
@@ -34,6 +35,9 @@ export default class CadastroClienteTitular extends Processo {
         } while (!dataNascimento || isNaN(dataNascimento.getTime()));
 
         let cliente = new Cliente(nome, nomeSocial, dataNascimento);
+
+        this.processo = new CadastroTelefone(cliente);
+        this.processo.processar();
 
         this.processo = new CadastroEnderecoTitular(cliente);
         this.processo.processar();

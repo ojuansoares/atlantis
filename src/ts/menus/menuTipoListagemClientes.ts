@@ -9,7 +9,7 @@ export default class MenuTipoListagemClientes implements Menu {
         console.log(`| 1 - Todos os titulares`)
         console.log(`| 2 - Todos os dependentes`)
         console.log(`| 3 - Todos os dependentes de um titular específico`)
-        console.log(`| 4 - Títular de um dependente específico`)
+        console.log(`| 4 - O Títular de um dependente específico`)
         console.log(`----------------------`)
     }
 }

@@ -27,14 +27,15 @@ export default class CadastrarDocumentosCliente extends Processo {
                     }
                     this.processo = new CadastroCpf(this.cliente)
                     this.processo.processar()
-                    break
+                    break;
                 case 2:
                     this.processo = new CadastroRg(this.cliente)
                     this.processo.processar()
-                    break
+                    break;
                 case 3:
                     this.processo = new CadastroPassaporte(this.cliente)
                     this.processo.processar()
+                    break;
                 case 0:
                     if (!this.cliente.Documentos.some(doc => doc.Tipo === 'Cadastro de Pessoas Física')) {
                         console.log('É necessário cadastrar pelo menos um CPF')

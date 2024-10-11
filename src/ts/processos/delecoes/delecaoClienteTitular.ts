@@ -5,54 +5,68 @@ import ListagemEdicaoTitular from "../listagens/listagemEdicaoTitular";
 export default class DelecaoClienteTitular extends Processo {
     processar(): void {
         console.clear()
+
+        if (!Armazem.InstanciaUnica.Clientes.some(c => c.Titular == '')) {
+            console.log(`\nNão há Clientes Titulares para Deletar! \nCrie um Cliente Titular Primeiro.\n`)
+            return;
+        }
+
         let armazem = Armazem.InstanciaUnica
 
         console.log('Iniciando a deleção de um cliente titular...')
-
-        const quantidadeClientes = Armazem.InstanciaUnica.Clientes.length
-        if (quantidadeClientes === 0) {
-            console.log('Não há clientes para deletar.');
-            return;
-        }
 
         this.processo = new ListagemEdicaoTitular()
         this.processo.processar()
 
         let sub = true
-        let clienteCPF: string = '';
+        let titularCPF: string = '';
         while (sub) {
-            clienteCPF = this.entrada.receberTexto('CPF do Cliente Titular Que Deseja Deletar: ')
+            titularCPF = this.entrada.receberTexto('CPF do Cliente Titular Que Deseja Deletar: ')
         
             const clienteEncontrado = Armazem.InstanciaUnica.Clientes.find(cliente => 
-                cliente.Documentos.some(doc => doc.Tipo === 'Cadastro de Pessoas Física' && doc.Numero === clienteCPF) && 
-                cliente.Titular === undefined
+                cliente.Documentos.some(doc => doc.Tipo === 'Cadastro de Pessoas Física' && doc.Numero === titularCPF) && cliente.Titular == ''
             );
 
             if (clienteEncontrado) {
                 sub = false;
             } else {
-                console.log('Cliente não encontrado');
+                console.log('Titular não encontrado');
                 return;
             }
         }
 
-        if (clienteCPF) {
-            const clienteIndex = armazem.Clientes.findIndex(cliente => cliente.Documentos.some(doc => doc.Tipo === 'Cadastro de Pessoas Física' && doc.Numero === clienteCPF))
+        if (titularCPF) {
+            const titularIndex = armazem.Clientes.findIndex(cliente => cliente.Documentos.some(doc => doc.Tipo === 'Cadastro de Pessoas Física' && doc.Numero === titularCPF))
 
-            const cliente = armazem.Clientes[clienteIndex];
-            if (cliente.Dependentes.length > 0) {
+            const titular = armazem.Clientes[titularIndex];
+            if (titular.Dependentes.length > 0) {
+
                 const confirmacao = this.entrada.receberTexto('O Cliente Titular Possui Dependentes. Tem Certeza Que Deseja Deletar o Cliente Junto Com Seus Dependentes? (S/N): ');
+
                 if (confirmacao.toLowerCase() !== 's') {
                     console.log('Operação de Deleção Cancelada.');
                     return;
                 }
+
+                // para cada cpf de dependente, deletar um por um
+                Armazem.InstanciaUnica.Clientes[titularIndex].Dependentes.forEach((dependente) => {
+
+                    // achando index do dependente dentro dos clientes do sistema
+                    let indexD = Armazem.InstanciaUnica.Clientes.findIndex(c => c.Documentos.some(d => d.Tipo === 'Cadastro de Pessoas Física' && d.Numero === dependente))
+
+                    // deletando o dependente
+                    armazem.Clientes.splice(indexD, 1)
+
+                    console.log(`Dependente ${dependente} deletado com sucesso.`)
+                })
+
             }
 
-            armazem.Clientes.splice(clienteIndex, 1)
+            armazem.Clientes.splice(titularIndex, 1)
 
-            console.log('Cliente deletado com sucesso.')
+            console.log(`Titular ${titularCPF} deletado com sucesso.`)
         } else {
-            console.log('Cliente não encontrado.')
+            console.log('Titular não encontrado.')
         }
 
         console.log('Finalizando a deleção do cliente titular...')

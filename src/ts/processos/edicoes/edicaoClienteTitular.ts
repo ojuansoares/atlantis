@@ -3,15 +3,15 @@ import Armazem from "../../dominio/armazem";
 import Cliente from "../../modelos/cliente";
 import ListagemEdicaoTitular from "../listagens/listagemEdicaoTitular";
 import ListagemEdicaoDocumento from "../listagens/listagemEdicaoDocumento";
+import ListagemTelefones from "../listagens/listagemTelefones";
 import EdicaoEnderecoTitular from "./edicaoEnderecoTitular";
 
 export default class EdicaoClienteTitular extends Processo {
     processar(): void {
         console.clear()
 
-        const quantidadeClientes = Armazem.InstanciaUnica.Clientes.length
-        if (quantidadeClientes === 0) {
-            console.log('Não há clientes para editar.');
+        if (!Armazem.InstanciaUnica.Clientes.some(c => c.Titular == '')) {
+            console.log(`\nNão há Clientes Titulares para Editar! \nCrie um Cliente Titular Primeiro.\n`)
             return;
         }
 
@@ -25,8 +25,7 @@ export default class EdicaoClienteTitular extends Processo {
             clienteCPF = this.entrada.receberTexto('CPF do Cliente Titular Que Deseja Editar: ')
         
             const clienteEncontrado = Armazem.InstanciaUnica.Clientes.find(cliente => 
-                cliente.Documentos.some(doc => doc.Tipo === 'Cadastro de Pessoas Física' && doc.Numero === clienteCPF) && 
-                cliente.Titular === undefined
+                cliente.Documentos.some(doc => doc.Tipo === 'Cadastro de Pessoas Física' && doc.Numero === clienteCPF) && cliente.Titular == ''
             );
 
             if (clienteEncontrado) {
@@ -53,6 +52,51 @@ export default class EdicaoClienteTitular extends Processo {
         let dataNascimento = this.entrada.receberData('Qual a nova data de nascimento do cliente?');
         if (dataNascimento) {
             clienteEditar.DataNascimento = dataNascimento;
+        }
+
+        this.processo = new ListagemTelefones(clienteEditar)
+        this.processo.processar()
+
+        let sub5 = true
+        while (sub5) {
+            let telefoneIndexTexto = this.entrada.receberTexto('Qual Telefone Deseja Editar?');
+            if (!telefoneIndexTexto) {
+                sub5 = false;
+                break;
+            }
+
+            let telefoneIndex = parseInt(telefoneIndexTexto, 10);
+            if (!isNaN(telefoneIndex) && telefoneIndex >= 0 && telefoneIndex < clienteEditar.Telefones.length) {
+
+                let novoDdd: string;
+                do {
+                    novoDdd = this.entrada.receberTexto('Qual o novo DDD?:');
+                    if (!novoDdd) {
+                        console.log('DDD não pode ser vazio. Por favor, insira um DDD válido.');
+                    }
+                } while (!novoDdd);
+
+                if (novoDdd) {
+                    clienteEditar.Telefones[telefoneIndex].Ddd = novoDdd;
+                }
+
+                let novoNumero: string;
+                do {
+                    novoNumero = this.entrada.receberTexto('Qual o novo Número?:');
+                    if (!novoNumero) {
+                        console.log('Número não pode ser vazio. Por favor, insira um Número válido.');
+                    }
+                } while (!novoNumero);
+
+                if (novoNumero) {
+                    clienteEditar.Telefones[telefoneIndex].Numero = novoNumero
+                }
+
+                sub5 = false;
+                break;
+            } else {
+                console.log('Telefone não encontrado. Tente novamente.');
+            }
         }
 
         this.processo = new EdicaoEnderecoTitular(clienteEditar);

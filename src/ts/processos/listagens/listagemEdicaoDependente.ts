@@ -4,7 +4,7 @@ import ImpressorEdicaoCliente from "../../impressores/impressorEdicaoCliente";
 import Impressor from "../../interfaces/impressor";
 import Cliente from "../../modelos/cliente";
 
-export default class ListagemEdicaoTitular extends Processo {
+export default class ListagemEdicaoDependente extends Processo {
     private clientes: Cliente[]
     private impressor!: Impressor
     constructor() {
@@ -13,17 +13,17 @@ export default class ListagemEdicaoTitular extends Processo {
     }
     processar(): void {
         console.clear()
-        console.log('Clientes Titulares:')
+        console.log('Clientes Dependentes:')
         this.clientes.forEach((cliente) => {
-            if (this.titular(cliente)) {
+            if (this.dependente(cliente)) {
                 this.impressor = new ImpressorEdicaoCliente(cliente)
                 console.log(`${this.impressor.imprimir()}`)
             }
         })
     }
-    private titular(cliente: Cliente): boolean {
+    private dependente(cliente: Cliente): boolean {
         let verificacao = false
-        if (cliente.Titular == '') {
+        if (cliente.Titular !== '') {
             verificacao = true
         }
         return verificacao
