@@ -10,8 +10,8 @@ export default class Cliente {
     private telefones: Telefone[] = []
     private endereco!: Endereco
     private documentos: Documento[] = []
-    private dependentes: Cliente[] = []
-    private titular!: Cliente
+    private dependentes: string[] = []
+    private titular: string = ''
 
     constructor(nome: string, nomeSocial: string, dataNascimento: Date) {
         this.nome = nome
@@ -30,5 +30,12 @@ export default class Cliente {
     public get Dependentes() { return this.dependentes }
     public get Titular() { return this.titular }
 
-    public set Endereco(endereco: Endereco) { this.endereco = endereco }
+    public set Nome(nome: string) { this.nome = nome; }
+    public set NomeSocial(nomeSocial: string) { this.nomeSocial = nomeSocial; }
+    public set DataNascimento(dataNascimento: Date) { this.dataNascimento = dataNascimento; }
+    public set Endereco(endereco: Endereco) { this.endereco = endereco; }
+    public set Documentos(documentos: Documento[]) { this.documentos = documentos; }
+    public set Titular(titular: string) {this.titular = titular}
+    public set Dependentes(dependentes: string[]) {this.dependentes = dependentes}
+    public set Telefones(telefones: Telefone[]) {this.telefones = telefones}
 }

@@ -1,5 +1,5 @@
 import Processo from "../abstracoes/processo";
-import CadastroAcomodacoes from "../processos/cadastroAcomodacoes";
+import CadastroAcomodacoes from "../processos/cadastros/cadastroAcomodacoes";
 import Principal from "../processos/principal";
 
 console.clear()
