@@ -37,7 +37,7 @@ export default class ListagemTitularDependente extends Processo {
             dependenteCPF = this.entrada.receberTexto('CPF do Dependente: ')
         
             const clienteEncontrado = Armazem.InstanciaUnica.Clientes.find(cliente => 
-                cliente.Documentos.some(doc => doc.Tipo === 'Cadastro de Pessoas Física' && doc.Numero === dependenteCPF) && 
+                cliente.Documentos.some(doc => doc.Tipo === 'Cadastro de Pessoa Física' && doc.Numero === dependenteCPF) && 
                 cliente.Titular !== '' 
             );
 
@@ -52,7 +52,7 @@ export default class ListagemTitularDependente extends Processo {
         }
 
         // guardando o index do Titular pelo CPF no Titular do dependente
-        let indexTitular = Armazem.InstanciaUnica.Clientes.findIndex(c => c.Documentos.some(d => d.Tipo === 'Cadastro de Pessoas Física' && d.Numero == dependenteEncontrado.Titular))
+        let indexTitular = Armazem.InstanciaUnica.Clientes.findIndex(c => c.Documentos.some(d => d.Tipo === 'Cadastro de Pessoa Física' && d.Numero == dependenteEncontrado.Titular))
 
         console.log("Titular:")
         // impressão do titular
