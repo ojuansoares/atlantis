@@ -5,6 +5,9 @@ import TipoCadastroCliente from "./tipos/tipoCadastroCliente"
 import TipoListagemClientes from "./tipos/tipoListagemClientes"
 import TipoEdicaoCliente from "./tipos/tipoEdicaoCliente"
 import TipoDelecaoCliente from "./tipos/tipoDelecaoCliente"
+import TipoCadastroHospedeAcomodacao from "./tipos/tipoCadastroHospedeAcomodacao"
+import DelecaoClienteAcomodacao from "./delecoes/delecaoClienteAcomodacao"
+import ListagemHospedesPorAcomodacao from "./listagens/listagemHospedesPorAcomodacao"
 
 export default class Principal extends Processo {
     constructor() {
@@ -34,6 +37,18 @@ export default class Principal extends Processo {
                 break
             case 5:
                 this.processo = new ListagemAcomodacoes()
+                this.processo.processar()
+                break
+            case 6:
+                this.processo = new ListagemHospedesPorAcomodacao()
+                this.processo.processar()
+                break
+            case 7:
+                this.processo = new TipoCadastroHospedeAcomodacao()
+                this.processo.processar()
+                break
+            case 8:
+                this.processo = new DelecaoClienteAcomodacao()
                 this.processo.processar()
                 break
             case 0:
