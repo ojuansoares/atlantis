@@ -13,9 +13,13 @@ export default class ImpressorCliente implements Impressor {
 
     }
     imprimir(): string {
+
+        let acomodacao = this.cliente.Acomodacao ? this.cliente.Acomodacao : 'Ainda Não Acomodado'
+
         let impressao = `****************************\n`
             + `| Nome: ${this.cliente.Nome}\n`
             + `| Nome social: ${this.cliente.NomeSocial}\n`
+            + `| Tipo Acomodação: ${acomodacao}\n`
             + `| Data de nascimento: ${this.cliente.DataNascimento.toLocaleDateString()}\n`
             + `| Data de cadastro: ${this.cliente.DataCadastro.toLocaleDateString()}\n`
             + `| Telefones:`

@@ -25,7 +25,7 @@ export default class EdicaoClienteTitular extends Processo {
             clienteCPF = this.entrada.receberTexto('CPF do Cliente Titular Que Deseja Editar: ')
         
             const clienteEncontrado = Armazem.InstanciaUnica.Clientes.find(cliente => 
-                cliente.Documentos.some(doc => doc.Tipo === 'Cadastro de Pessoas Física' && doc.Numero === clienteCPF) && cliente.Titular == ''
+                cliente.Documentos.some(doc => doc.Tipo === 'Cadastro de Pessoa Física' && doc.Numero === clienteCPF) && cliente.Titular == ''
             );
 
             if (clienteEncontrado) {
@@ -132,7 +132,7 @@ export default class EdicaoClienteTitular extends Processo {
 
         // Substituir o cliente existente pelo cliente atualizado no Armazem
         const clienteIndex = Armazem.InstanciaUnica.Clientes.findIndex(cliente => 
-            cliente.Documentos.some(doc => doc.Tipo === 'Cadastro de Pessoas Física' && doc.Numero === clienteCPF)
+            cliente.Documentos.some(doc => doc.Tipo === 'Cadastro de Pessoa Física' && doc.Numero === clienteCPF)
         );
 
         if (clienteIndex !== -1) {

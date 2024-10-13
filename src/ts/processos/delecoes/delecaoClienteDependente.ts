@@ -26,7 +26,7 @@ export default class DelecaoClienteDependente extends Processo {
             dependenteCPF = this.entrada.receberTexto('CPF do Dependente Que Deseja Deletar: ')
         
             const clienteEncontrado = Armazem.InstanciaUnica.Clientes.find(cliente => 
-                cliente.Documentos.some(doc => doc.Tipo === 'Cadastro de Pessoas Física' && doc.Numero === dependenteCPF) && cliente.Titular !== ''
+                cliente.Documentos.some(doc => doc.Tipo === 'Cadastro de Pessoa Física' && doc.Numero === dependenteCPF) && cliente.Titular !== ''
             );
 
             if (clienteEncontrado) {
@@ -39,10 +39,10 @@ export default class DelecaoClienteDependente extends Processo {
         }
 
         // guardando index do dependente
-        let dependenteIndex = armazem.Clientes.findIndex(cliente => cliente.Documentos.some(doc => doc.Tipo === 'Cadastro de Pessoas Física' && doc.Numero === dependenteCPF))
+        let dependenteIndex = armazem.Clientes.findIndex(cliente => cliente.Documentos.some(doc => doc.Tipo === 'Cadastro de Pessoa Física' && doc.Numero === dependenteCPF))
 
         // guardando index do titular do dependente
-        let titularIndex = armazem.Clientes.findIndex(cliente => cliente.Documentos.some(doc => doc.Tipo === 'Cadastro de Pessoas Física' && doc.Numero === dependenteEspecifico.Titular))
+        let titularIndex = armazem.Clientes.findIndex(cliente => cliente.Documentos.some(doc => doc.Tipo === 'Cadastro de Pessoa Física' && doc.Numero === dependenteEspecifico.Titular))
 
         // guardando o indice do dependente dentro da lista de dependentes do titular
         let indexListaDependente = armazem.Clientes[titularIndex].Dependentes.findIndex(d => d === dependenteCPF)

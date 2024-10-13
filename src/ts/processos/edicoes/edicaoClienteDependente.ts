@@ -26,7 +26,7 @@ export default class EdicaoClienteDependente extends Processo {
             clienteCPF = this.entrada.receberTexto('CPF do Cliente Dependente Que Deseja Editar: ')
         
             const clienteEncontrado = Armazem.InstanciaUnica.Clientes.find(cliente => 
-                cliente.Documentos.some(doc => doc.Tipo === 'Cadastro de Pessoas Física' && doc.Numero === clienteCPF) && 
+                cliente.Documentos.some(doc => doc.Tipo === 'Cadastro de Pessoa Física' && doc.Numero === clienteCPF) && 
                 cliente.Titular !== '' 
             );
 
@@ -150,7 +150,7 @@ export default class EdicaoClienteDependente extends Processo {
                 titularCPF = this.entrada.receberTexto('CPF do Titular: ')
             
                 const clienteEncontrado = Armazem.InstanciaUnica.Clientes.find(cliente => 
-                    cliente.Documentos.some(doc => doc.Tipo === 'Cadastro de Pessoas Física' && doc.Numero === titularCPF) && cliente.Titular == ''
+                    cliente.Documentos.some(doc => doc.Tipo === 'Cadastro de Pessoa Física' && doc.Numero === titularCPF) && cliente.Titular == ''
                 );
 
                 if (clienteEncontrado && titularCPF === clienteEditar.Titular) {
@@ -169,7 +169,7 @@ export default class EdicaoClienteDependente extends Processo {
             let cpfTitularAtual = clienteEditar.Titular
 
             // guardando o index do titular dentro dos clientes do sistema
-            let indexTitularAtual = Armazem.InstanciaUnica.Clientes.findIndex(c => c.Documentos.some(d => d.Tipo === 'Cadastro de Pessoas Física' && d.Numero == cpfTitularAtual))
+            let indexTitularAtual = Armazem.InstanciaUnica.Clientes.findIndex(c => c.Documentos.some(d => d.Tipo === 'Cadastro de Pessoa Física' && d.Numero == cpfTitularAtual))
 
             // guardando o index do dependente atual dentro da lista de dependentes do titular
             let indexDependenteAtual = Armazem.InstanciaUnica.Clientes[indexTitularAtual].Dependentes.findIndex(a => a == clienteCPF)
@@ -183,7 +183,7 @@ export default class EdicaoClienteDependente extends Processo {
             console.log("Atualizando Titular no Dependente Atual...")
 
             // guardando o index do titular novo dentro dos clientes do sistema
-            let indexTitularNovo = Armazem.InstanciaUnica.Clientes.findIndex(c => c.Documentos.some(d => d.Tipo === 'Cadastro de Pessoas Física' && d.Numero == titularCPF))
+            let indexTitularNovo = Armazem.InstanciaUnica.Clientes.findIndex(c => c.Documentos.some(d => d.Tipo === 'Cadastro de Pessoa Física' && d.Numero == titularCPF))
 
             // adicionando dependente atual na lista de dependentes do novo titular
             Armazem.InstanciaUnica.Clientes[indexTitularNovo].Dependentes.push(clienteCPF)
@@ -192,7 +192,7 @@ export default class EdicaoClienteDependente extends Processo {
 
         // Substituir o cliente existente pelo cliente atualizado no Armazem
         const clienteIndex = Armazem.InstanciaUnica.Clientes.findIndex(cliente => 
-            cliente.Documentos.some(doc => doc.Tipo === 'Cadastro de Pessoas Física' && doc.Numero === clienteCPF)
+            cliente.Documentos.some(doc => doc.Tipo === 'Cadastro de Pessoa Física' && doc.Numero === clienteCPF)
         );
 
         if (clienteIndex !== -1) {

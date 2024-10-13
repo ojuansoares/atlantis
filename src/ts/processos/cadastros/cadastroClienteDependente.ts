@@ -53,7 +53,7 @@ export default class CadastroClienteDependente extends Processo {
         this.processo.processar();
 
         // pegando cpf do dependente
-        const dependenteCPF = cliente.Documentos.find(doc => doc.Tipo === 'Cadastro de Pessoas Física')?.Numero;
+        const dependenteCPF = cliente.Documentos.find(doc => doc.Tipo === 'Cadastro de Pessoa Física')?.Numero;
         if (!dependenteCPF) {
             console.log('Erro ao guardar o CPF do dependente.');
             return;
@@ -69,7 +69,7 @@ export default class CadastroClienteDependente extends Processo {
             titularCPF = this.entrada.receberTexto('Digite o CPF do Titular:')
         
             const titularEncontrado = Armazem.InstanciaUnica.Clientes.find(cliente => 
-                cliente.Documentos.some(doc => doc.Tipo === 'Cadastro de Pessoas Física' && doc.Numero === titularCPF) && cliente.Titular == ''
+                cliente.Documentos.some(doc => doc.Tipo === 'Cadastro de Pessoa Física' && doc.Numero === titularCPF) && cliente.Titular == ''
             );
 
             if (titularEncontrado) {
@@ -86,7 +86,7 @@ export default class CadastroClienteDependente extends Processo {
         console.log(`Titular ${titularCPF} Vinculado!`)
 
         // pegando index do titular
-        let titularIndex = Armazem.InstanciaUnica.Clientes.findIndex(c => c.Documentos.some(d => d.Tipo === 'Cadastro de Pessoas Física' && d.Numero === titularCPF))
+        let titularIndex = Armazem.InstanciaUnica.Clientes.findIndex(c => c.Documentos.some(d => d.Tipo === 'Cadastro de Pessoa Física' && d.Numero === titularCPF))
 
         // adicionando cpf do dependente a lista de dependentes do titular
         if (!Armazem.InstanciaUnica.Clientes[titularIndex].Dependentes) {

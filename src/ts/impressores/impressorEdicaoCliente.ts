@@ -9,7 +9,7 @@ export default class ImpressorEdicaoCliente implements Impressor {
 
     }
     imprimir(): string {
-        let CPF = this.cliente.Documentos.find(d => d.Tipo == 'Cadastro de Pessoas Física')
+        let CPF = this.cliente.Documentos.find(d => d.Tipo == 'Cadastro de Pessoa Física')
         let impressao = `| Nome: ${this.cliente.Nome} ` + `| CPF: ${CPF?.Numero}`
 
         impressao = impressao + `\n****************************`

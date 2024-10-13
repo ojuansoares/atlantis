@@ -12,6 +12,7 @@ export default class Cliente {
     private documentos: Documento[] = []
     private dependentes: string[] = []
     private titular: string = ''
+    private acomodacao: string = ''
 
     constructor(nome: string, nomeSocial: string, dataNascimento: Date) {
         this.nome = nome
@@ -29,6 +30,7 @@ export default class Cliente {
     public get Documentos() { return this.documentos }
     public get Dependentes() { return this.dependentes }
     public get Titular() { return this.titular }
+    public get Acomodacao() { return this.acomodacao }
 
     public set Nome(nome: string) { this.nome = nome; }
     public set NomeSocial(nomeSocial: string) { this.nomeSocial = nomeSocial; }
@@ -38,4 +40,5 @@ export default class Cliente {
     public set Titular(titular: string) {this.titular = titular}
     public set Dependentes(dependentes: string[]) {this.dependentes = dependentes}
     public set Telefones(telefones: Telefone[]) {this.telefones = telefones}
+    public set Acomodacao(acomodacao: string) {this.acomodacao = acomodacao}
 }

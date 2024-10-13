@@ -7,7 +7,7 @@ export default class ImpressorAcomodacao implements Impressor {
         this.acomodacao = acomodacao
     }
     imprimir(): string {
-        let descricao = `Nomenclatura: ${this.acomodacao.NomeAcomadacao.toString()}\n`
+        let descricao = `Nomenclatura: ${this.acomodacao.NomeAcomodacao.toString()}\n`
             + `-- Quantidade de leitos para solteiros: ${this.acomodacao.CamaSolteiro}\n`
             + `-- Quantidade de leitos para casais: ${this.acomodacao.CamaCasal}\n`
             + `-- Climatização: ${this.converterBooleano(this.acomodacao.Climatizacao)}\n`
