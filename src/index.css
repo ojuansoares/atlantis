@@ -5,6 +5,7 @@ body {
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;
   padding-top: 20vh;
+  min-width: 350px;
 }
 
 .container-fluid {
@@ -134,8 +135,60 @@ p {
   margin: 0;
 }
 
-@media (max-width: 800px) {
+/* Centralized text styles for home page */
+.home-title {
+  font-size: 3rem;
+  font-weight: bold;
+}
+
+.home-description {
+  font-size: 1.5rem;
+  margin-top: 10px;
+}
+
+/* Button styles specific to home page */
+.home-button {
+  background-color: transparent;
+  color: white;
+  font-size: 1.25rem; /* Aumenta o tamanho do texto */
+  padding: 15px 30px; /* Aumenta o tamanho dos botões */
+  border: 2px solid white; /* Borda branca */
+  cursor: pointer;
+  transition: all 0.3s ease; /* Transição suave */
+  margin-right: 10px;
+}
+
+.home-button:hover {
+  background-color: white;
+  color: black; /* Troca a cor do texto ao passar o mouse */
+}
+
+.home-button-container {
+  margin-top: 20px;
+}
+
+
+@media (max-width: 991px) {
   .container-fluid {
     width: 85% !important;
   }
+
+  .container-nav {
+    color: white !important;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 100% !important;
+    position: relative !important;
+    margin: 1vh 5vh 1vh 5vh;
+  }
+
+  .navbar-brand {
+    text-align: center;
+  }
+
+  .nav-item {
+    font-size: 2vh;
+  }
+
 }
