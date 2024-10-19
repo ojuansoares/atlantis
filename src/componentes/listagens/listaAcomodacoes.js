@@ -1,5 +1,5 @@
 import React from "react";
-import "../../styles/bg14.css";
+import "../../styles/bg9.css";
 import "../../index.css";
 
 export default function ListaAcomodacoes() {
@@ -71,7 +71,7 @@ export default function ListaAcomodacoes() {
 
     return (
         <div>
-            <div className="bg14"></div>
+            <div className="bg9"></div>
             <div className="container-fluid fundo-escuro">
                 <div className="list-group">
                     <h2>Listagem das acomodações ofertadas:</h2>

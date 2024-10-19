@@ -1,11 +1,11 @@
 import React from "react";
-import "../../styles/bg14.css"
+import "../../styles/bg4.css"
 import "../../index.css"
 
 export default function ListaListagens() {
     return (
         <div>
-            <div className="bg14"></div>
+            <div className="bg4"></div>
             <div className="container-fluid fundo-escuro">
                 <h4>Listagem Clientes:</h4>
                 <hr></hr>

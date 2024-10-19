@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import "../../index.css"
-import "../../styles/bg17.css"
+import "../../styles/bg13.css"
 import { confirmAlert } from 'react-confirm-alert';
 import 'react-confirm-alert/src/react-confirm-alert.css';
 import { ToastContainer, toast } from 'react-toastify';
@@ -55,7 +55,7 @@ export default function ClienteDependente() {
 
     return (
         <div>
-            <div className="bg17"></div>
+            <div className="bg13"></div>
             <div className="container-fluid fundo-escuro">
                 <h2>Informações do Cliente Dependente</h2>
                 <hr></hr>

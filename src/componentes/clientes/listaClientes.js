@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import "../../styles/bg17.css";
+import "../../styles/bg13.css";
 import "../../index.css";
 
 export default function ListaClientes() {
@@ -22,7 +22,7 @@ export default function ListaClientes() {
 
     return (
         <div>
-            <div className="bg17"></div>
+            <div className="bg13"></div>
             <div className="container-fluid fundo-escuro">
                 <h2>Clientes</h2>
                 <hr></hr>

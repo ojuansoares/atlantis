@@ -1,5 +1,5 @@
 import React from "react";
-import "../../styles/bg14.css";
+import "../../styles/bg6.css";
 import "../../index.css";
 
 export default function ListaDependentesTitular() {
@@ -43,7 +43,7 @@ export default function ListaDependentesTitular() {
 
     return (
         <div>
-            <div className="bg14"></div>
+            <div className="bg6"></div>
             <div className="container-fluid fundo-escuro">
                 <h2>Listagem de Dependentes por Titular</h2>
                 <hr></hr>

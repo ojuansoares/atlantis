@@ -1,5 +1,5 @@
 import React from "react";
-import "../../styles/bg14.css";
+import "../../styles/bg3.css";
 import "../../index.css";
 
 export default function ListaHospedesAcomodacao() {
@@ -41,7 +41,7 @@ export default function ListaHospedesAcomodacao() {
 
     return (
         <div>
-            <div className="bg14"></div>
+            <div className="bg3"></div>
             <div className="container-fluid fundo-escuro">
                 <h2>Listagem de Hóspedes por Acomodação</h2>
                 <hr></hr>
