@@ -1,4 +1,5 @@
 import express from 'express';
+import cors from 'cors';
 import clientesRoutes from './routes/clientes';
 import acomodacoesRoutes from './routes/acomodacoes';
 import acomodacaoClienteRoutes from './routes/acomodacao_cliente';
@@ -9,12 +10,20 @@ import './models/enderecos';
 import './models/documentos';
 import './models/acomodacoes';
 import './models/acomodacao_cliente';
+import { setupAssociations } from './models/associacoes';
 import * as dotenv from 'dotenv';
 
 dotenv.config();
 
 const app = express();
+
+app.use(cors({
+  origin: 'http://localhost:3000' // Permitir apenas o frontend
+}));
+
 app.use(express.json()); // Substitui body-parser
+
+setupAssociations();
 
 // ROTAS IMPORTADAS
 app.use('/clientes', clientesRoutes);

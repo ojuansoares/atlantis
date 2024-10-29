@@ -34,6 +34,7 @@ Cliente.init({
       model: Cliente,
       key: 'id',
     },
+    onDelete: 'CASCADE', // Adiciona a regra de exclusão em cascata
   },
 }, {
   sequelize,

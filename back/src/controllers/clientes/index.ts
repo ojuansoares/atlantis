@@ -93,7 +93,11 @@ class ClientesController {
   async getAll(req: Request, res: Response) {
     try {
       const clientes = await Cliente.findAll({
-        include: [Telefone, Endereco, Documento],
+        include: [
+          { model: Telefone, as: 'telefones' },
+          { model: Endereco, as: 'enderecos' },
+          { model: Documento, as: 'documentos' },
+        ],
       });
       res.status(200).json(clientes);
     } catch (error) {
@@ -106,7 +110,11 @@ class ClientesController {
     try {
       const { id } = req.params;
       const cliente = await Cliente.findByPk(id, {
-        include: [Telefone, Endereco, Documento],
+        include: [
+          { model: Telefone, as: 'telefones' },
+          { model: Endereco, as: 'enderecos' },
+          { model: Documento, as: 'documentos' },
+        ],
       });
       if (cliente) {
         res.status(200).json(cliente);
@@ -117,6 +125,7 @@ class ClientesController {
       res.status(500).json({ error: 'Erro ao obter cliente: ' + error });
     }
   }
+
 
   // Método para atualizar um cliente
   async update(req: Request, res: Response) {
