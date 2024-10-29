@@ -1,24 +1,46 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import "../../styles/bg13.css";
 import "../../index.css";
 
 export default function ListaClientes() {
     const [tipoCliente, setTipoCliente] = useState('titular');
+    const [clientes, setClientes] = useState([]);
 
     const handleTipoClienteChange = (event) => {
         setTipoCliente(event.target.value);
     };
 
-    const clientes = [
-        { id: 1, nome: 'Juan', tipo: 'titular', cpf: '111.111.111-11' },
-        { id: 2, nome: 'Paulo', tipo: 'dependente', cpf: '222.222.222-22' },
-        { id: 3, nome: 'Maria', tipo: 'titular', cpf: '333.333.333-33' },
-        { id: 4, nome: 'Isabelle', tipo: 'dependente', cpf: '444.444.444-44' },
-        { id: 5, nome: 'Cleiton', tipo: 'titular', cpf: '555.555.555-55' },
-        { id: 6, nome: 'Jeniffer', tipo: 'dependente', cpf: '666.666.666-66' },
-    ];
+    useEffect(() => {
+        async function fetchClientes() {
+            try {
+                const response = await fetch("http://localhost:5000/clientes/listar-clientes", {
+                    method: "GET",
+                    headers: {
+                        "Content-Type": "application/json"
+                    }
+                });
+                const data = await response.json();
+                if (response.ok) {
+                    setClientes(data);
+                    console.log(data);
+                } else {
+                    throw new Error(`Erro ao buscar clientes: ${data.message}`);
+                }
+            } catch (error) {
+                console.error(error);
+            }
+        }
 
-    const clientesFiltrados = clientes.filter(cliente => cliente.tipo === tipoCliente);
+        fetchClientes();
+    }, []);
+
+    const clientesFiltrados = clientes.filter(cliente => {
+        if (tipoCliente === 'titular') {
+            return cliente.titular_id === null;
+        } else {
+            return cliente.titular_id !== null;
+        }
+    });
 
     return (
         <div>
@@ -37,15 +59,22 @@ export default function ListaClientes() {
 
                 <hr></hr>
                 <div className="list-group">
-                    {clientesFiltrados.map(cliente => (
-                        <a 
-                            key={cliente.id} 
-                            href={`/${tipoCliente}/:id`} 
-                            className="list-group-item list-group-item-action d-flex justify-content-between"
-                        >
-                            {cliente.nome} | {cliente.cpf}
-                        </a>
-                    ))}
+                    {clientesFiltrados.length === 0 ? (
+                        <p>Não há clientes desse tipo registrados</p>
+                    ) : (
+                        clientesFiltrados.map(cliente => {
+                            const cpfDocumento = cliente.documentos.find(doc => doc.tipo_documento === 'CPF');
+                            return (
+                                <a 
+                                    key={cliente.id} 
+                                    href={`/cliente/${cliente.id}`} 
+                                    className="list-group-item list-group-item-action d-flex justify-content-between"
+                                >
+                                    {cliente.nome} | {cpfDocumento ? cpfDocumento.numero_documento : 'CPF não encontrado'}
+                                </a>
+                            );
+                        })
+                    )}
                 </div>
             </div>
         </div>

@@ -2,13 +2,11 @@ import React from "react";
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import BarraNavegacao from "./barraNavegacao";
 import Home from "./home";
-import ClienteTitular from "./clientes/clienteTitular";
-import ClienteDependente from "./clientes/clienteDependente";
+import Cliente from "./clientes/cliente";
 import ListaClientes from "./clientes/listaClientes";
 import ListaListagens from "./listagens/listaListagens";
 import CadastroCliente from './clientes/cadastroCliente';
-import EditarClienteTitular from "./clientes/editarClienteTitular";
-import EditarClienteDependente from "./clientes/editarClienteDependente";
+import EditarCliente from "./clientes/editarCliente";
 import VinculoClienteAcomodacao from "./hospedagem/VinculoClienteAcomodacao";
 import ListaDependentesTitular from "./listagens/listaDependentesTitular";
 import ListaTitularDependentes from "./listagens/listaTitularDependentes";
@@ -25,10 +23,8 @@ export default function Roteador() {
 
                 {/* CLIENTES */}
                 <Route path="/clientes" element={<ListaClientes />} />
-                <Route path="/titular/:id" element={<ClienteTitular />} />
-                <Route path="/dependente/:id" element={<ClienteDependente />} />
-                <Route path="/editarclientetitular/:id" element={<EditarClienteTitular />} />
-                <Route path="/editarclientedependente/:id" element={<EditarClienteDependente />} />
+                <Route path="/cliente/:id" element={<Cliente />} />
+                <Route path="/editarcliente/:id" element={<EditarCliente />} />
 
                 {/* CADASTRAR CLIENTE */}
                 <Route path="/cadastrocliente" element={<CadastroCliente />} />

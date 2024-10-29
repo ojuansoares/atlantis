@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import "../../index.css"
-import "../../styles/bg10.css"
+import "../../styles/bg13.css"
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-export default function EditarClienteDependente() {
+export default function EditarCliente() {
     const [state, setState] = useState({
         Nome: 'João Silva',
         NomeSocial: 'Joana Silva',
@@ -22,8 +22,7 @@ export default function EditarClienteDependente() {
         Documentos: [
             { tipo: 'RG', numero: '12.345.678-9', dataEmissao: '1999-01-01' },
             { tipo: 'CPF', numero: '123.456.789-00', dataEmissao: '2000-01-01' }
-        ],
-        Titular: '111.111.111-11'
+        ]
     });
 
     const handleInputChange = (event) => {
@@ -62,20 +61,20 @@ export default function EditarClienteDependente() {
         const notify = () => toast.success("Cliente editado com sucesso!");
         notify();
         setTimeout(() => {
-            window.location.href = '/dependente/id:';
+            window.location.href = '/titular/id:';
         }, 1200);
     };
 
     const handleCancel = (event) => {
         event.preventDefault();
-        window.location.href = '/dependente/id:';
+        window.location.href = '/titular/id:';
     };
 
     return (
         <div>
             <div className="bg13"></div>
             <div className="container-fluid fundo-escuro">
-                <h2>Editar Cliente Dependente</h2>
+                <h2>Editar Cliente Titular</h2>
                 <hr></hr>
                 <form>
                     <label>Nome</label>
@@ -133,15 +132,6 @@ export default function EditarClienteDependente() {
                             </div>
                         </div>
                     ))}
-                    <h3>Titular</h3>
-                    <div className="input-group mb-3">
-                        <select className="form-control" name="Titular" value={state.Titular} onChange={handleInputChange}>
-                            <option value="111.111.111-11">João Silva - 111.111.111-11</option>
-                            <option value="222.222.222-22">Maria Oliveira - 222.222.222-22</option>
-                            <option value="333.333.333-33">Carlos Pereira - 333.333.333-33</option>
-                            <option value="444.444.444-44">Ana Costa - 444.444.444-44</option>
-                        </select>
-                    </div>
                     <div className="d-flex gap-2">
                         <button className="btn btn-outline-secondary" type="button" onClick={handleSave}>Salvar</button>
                         <button className="btn btn-outline-danger" type="button" onClick={handleCancel}>Cancelar</button>
