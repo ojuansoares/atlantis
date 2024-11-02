@@ -59,36 +59,6 @@ class ClientesController {
     }
   }
 
-  // Método para verificar se um telefone já existe
-  async verificaTelefone(req: Request, res: Response) {
-    try {
-      const { DDD, numero } = req.body;
-      const telefone = await Telefone.findOne({ where: { DDD, numero } });
-      if (telefone) {
-        res.status(200).json({ exists: true });
-      } else {
-        res.status(200).json({ exists: false });
-      }
-    } catch (error) {
-      res.status(500).json({ error: 'Erro ao verificar telefone: ' + error });
-    }
-  }
-
-  // Método para verificar se um titular existe
-  async verificaTitular(req: Request, res: Response) {
-    try {
-      const { titular_id } = req.body;
-      const titular = await Cliente.findOne({ where: { id: titular_id, titular_id: null } });
-      if (titular) {
-        res.status(200).json({ exists: true });
-      } else {
-        res.status(200).json({ exists: false });
-      }
-    } catch (error) {
-      res.status(500).json({ error: 'Erro ao verificar titular: ' + error });
-    }
-  }
-
   // Método para obter todos os clientes
   async getAll(req: Request, res: Response) {
     try {

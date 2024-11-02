@@ -10,4 +10,6 @@ router.get('/cliente/:id', ClientesController.getById);
 router.put('/atualizar-cliente/:id', ClientesController.update);
 router.delete('/deletar-cliente/:id', ClientesController.delete);
 
+router.post('/verificar-documento', ClientesController.verificaDocumento);
+
 export default router;
