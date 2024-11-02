@@ -1,29 +1,49 @@
-import React, { useState } from 'react';
-import "../../index.css"
-import "../../styles/bg13.css"
+import React, { useState, useEffect } from 'react';
+import InputMask from 'react-input-mask';
+import "../../index.css";
+import "../../styles/bg13.css";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { useParams } from 'react-router-dom';
 
 export default function EditarCliente() {
+    const { id } = useParams();
     const [state, setState] = useState({
-        Nome: 'João Silva',
-        NomeSocial: 'Joana Silva',
-        Acomodacao: 'Acomodação simples para solteiro(a)',
-        DataNascimento: '2000-01-01',
-        DataCadastro: '2020-01-01',
-        Telefones: ['(11) 1234-5678', '(11) 9876-5432'],
-        Endereco: {
-            rua: 'Rua Exemplo',
-            numero: 123,
-            cidade: 'Cidade Exemplo',
-            estado: 'Estado Exemplo',
-            cep: '12345-678'
-        },
-        Documentos: [
-            { tipo: 'RG', numero: '12.345.678-9', dataEmissao: '1999-01-01' },
-            { tipo: 'CPF', numero: '123.456.789-00', dataEmissao: '2000-01-01' }
+        nome: '',
+        nome_social: '',
+        data_nascimento: '',
+        telefones: [{ DDD: '', numero: '' }],
+        enderecos: [{ rua: '', bairro: '', cidade: '', estado: '', cep: '' }],
+        documentos: [
+            { tipo_documento: 'RG', numero_documento: '', data_expedicao: '' },
+            { tipo_documento: 'CPF', numero_documento: '', data_expedicao: '' }
         ]
     });
+
+    useEffect(() => {
+        async function fetchCliente() {
+            try {
+                const response = await fetch(`http://localhost:5000/clientes/cliente/${id}`);
+                const data = await response.json();
+                if (response.ok) {
+                    setState({
+                        ...data,
+                        data_nascimento: data.data_nascimento.split("T")[0],
+                        documentos: data.documentos.map(doc => ({
+                            ...doc,
+                            data_expedicao: doc.data_expedicao ? doc.data_expedicao.split("T")[0] : ''
+                        }))
+                    });
+                } else {
+                    throw new Error(`Erro ao buscar cliente: ${data.message}`);
+                }
+            } catch (error) {
+                console.error(error);
+            }
+        }
+
+        fetchCliente();
+    }, [id]);
 
     const handleInputChange = (event) => {
         const { name, value } = event.target;
@@ -31,43 +51,100 @@ export default function EditarCliente() {
     }
 
     const handleTelefoneChange = (index, event) => {
-        const newTelefones = state.Telefones.map((telefone, telefoneIndex) => {
+        const { name, value } = event.target;
+        const newTelefones = state.telefones.map((telefone, telefoneIndex) => {
             if (index !== telefoneIndex) return telefone;
-            return event.target.value;
+            return { ...telefone, [name]: value };
         });
 
-        setState(prevState => ({ ...prevState, Telefones: newTelefones }));
+        setState(prevState => ({ ...prevState, telefones: newTelefones }));
     }
 
     const handleDocumentoChange = (index, event) => {
-        const newDocumentos = state.Documentos.map((documento, documentoIndex) => {
+        const { name, value } = event.target;
+        const newDocumentos = state.documentos.map((documento, documentoIndex) => {
             if (index !== documentoIndex) return documento;
-            return { ...documento, [event.target.name]: event.target.value };
+            return { ...documento, [name]: value };
         });
 
-        setState(prevState => ({ ...prevState, Documentos: newDocumentos }));
+        setState(prevState => ({ ...prevState, documentos: newDocumentos }));
     }
 
     const handleEnderecoChange = (event) => {
         const { name, value } = event.target;
         setState(prevState => ({
             ...prevState,
-            Endereco: { ...prevState.Endereco, [name]: value }
+            enderecos: [{ ...prevState.enderecos[0], [name]: value }]
         }));
     }
 
-    const handleSave = (event) => {
+    const verificarDocumentos = async () => {
+        for (let i = 0; i < state.documentos.length; i++) {
+            const doc = state.documentos[i];
+            try {
+                const response = await fetch('http://localhost:5000/clientes/verificar-documento', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ numero_documento: doc.numero_documento }),
+                });
+                const data = await response.json();
+                if (data.exists) {
+                    toast.error(`Documento tipo "${doc.tipo_documento}" já existe.`);
+                    return false;
+                }
+            } catch (error) {
+                console.error("Erro ao verificar documento:", error);
+                return false;
+            }
+        }
+        return true;
+    };
+
+    const handleSave = async (event) => {
         event.preventDefault();
-        const notify = () => toast.success("Cliente editado com sucesso!");
-        notify();
-        setTimeout(() => {
-            window.location.href = '/titular/id:';
-        }, 1200);
+
+        if (state.documentos.length === 3) {
+            const numerosDocumentos = state.documentos.map(doc => doc.numero_documento);
+            const numerosUnicos = new Set(numerosDocumentos);
+
+            if (numerosDocumentos.length !== numerosUnicos.size) {
+                toast.error("Não é permitido ter dois documentos com números iguais.");
+                return;
+            }
+        }
+
+        const documentosValidos = await verificarDocumentos();
+        if (!documentosValidos) {
+            return;
+        }
+
+        try {
+            const response = await fetch(`http://localhost:5000/clientes/atualizar-cliente/${id}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(state),
+            });
+
+            if (response.ok) {
+                toast.success("Cliente editado com sucesso!");
+                setTimeout(() => {
+                    window.location.href = `/cliente/${id}`;
+                }, 1200);
+            } else {
+                toast.error("Erro ao editar cliente.");
+            }
+        } catch (error) {
+            toast.error("Erro ao editar cliente: " + error.message);
+        }
     };
 
     const handleCancel = (event) => {
         event.preventDefault();
-        window.location.href = '/titular/id:';
+        window.location.href = `/cliente/${id}`;
     };
 
     return (
@@ -79,56 +156,81 @@ export default function EditarCliente() {
                 <form>
                     <label>Nome</label>
                     <div className="input-group mb-3">
-                        <input type="text" className="form-control" placeholder="Nome" name="Nome" value={state.Nome} onChange={handleInputChange} />
+                        <input type="text" className="form-control" placeholder="Nome" name="nome" value={state.nome} onChange={handleInputChange} />
                     </div>
                     <label>Nome Social</label>
                     <div className="input-group mb-3">
-                        <input type="text" className="form-control" placeholder="Nome Social" name="NomeSocial" value={state.NomeSocial} onChange={handleInputChange} />
+                        <input type="text" className="form-control" placeholder="Nome Social" name="nome_social" value={state.nome_social} onChange={handleInputChange} />
                     </div>
                     <label>Data de Nascimento</label>
                     <div className="input-group mb-3">
-                        <input type="date" className="form-control" name="DataNascimento" value={state.DataNascimento} onChange={handleInputChange} />
+                        <input type="date" className="form-control" name="data_nascimento" value={state.data_nascimento} onChange={handleInputChange} />
                     </div>
-                    {state.Telefones.map((telefone, index) => (
+                    {state.telefones.map((telefone, index) => (
                         <div key={index}>
                             <label>Telefone {index + 1}</label>
                             <div className="input-group mb-3">
-                                <input type="text" className="form-control" placeholder={`Telefone ${index + 1}`} value={telefone} onChange={event => handleTelefoneChange(index, event)} />
+                                <input type="text" className="form-control" placeholder="DDD" name="DDD" value={telefone.DDD} onChange={event => handleTelefoneChange(index, event)} />
+                                <input type="text" className="form-control" placeholder="Número" name="numero" value={telefone.numero} onChange={event => handleTelefoneChange(index, event)} />
                             </div>
                         </div>
                     ))}
                     <h3>Endereço</h3>
                     <label>Rua</label>
                     <div className="input-group mb-3">
-                        <input type="text" className="form-control" placeholder="Rua" name="rua" value={state.Endereco.rua} onChange={handleEnderecoChange} />
+                        <input type="text" className="form-control" placeholder="Rua" name="rua" value={state.enderecos[0].rua} onChange={handleEnderecoChange} />
                     </div>
-                    <label>Número</label>
+                    <label>Bairro</label>
                     <div className="input-group mb-3">
-                        <input type="number" className="form-control" placeholder="Número" name="numero" value={state.Endereco.numero} onChange={handleEnderecoChange} />
+                        <input type="text" className="form-control" placeholder="Bairro" name="bairro" value={state.enderecos[0].bairro} onChange={handleEnderecoChange} />
                     </div>
                     <label>Cidade</label>
                     <div className="input-group mb-3">
-                        <input type="text" className="form-control" placeholder="Cidade" name="cidade" value={state.Endereco.cidade} onChange={handleEnderecoChange} />
+                        <input type="text" className="form-control" placeholder="Cidade" name="cidade" value={state.enderecos[0].cidade} onChange={handleEnderecoChange} />
                     </div>
                     <label>Estado</label>
                     <div className="input-group mb-3">
-                        <input type="text" className="form-control" placeholder="Estado" name="estado" value={state.Endereco.estado} onChange={handleEnderecoChange} />
+                        <input type="text" className="form-control" placeholder="Estado" name="estado" value={state.enderecos[0].estado} onChange={handleEnderecoChange} />
                     </div>
                     <label>CEP</label>
                     <div className="input-group mb-3">
-                        <input type="text" className="form-control" placeholder="CEP" name="cep" value={state.Endereco.cep} onChange={handleEnderecoChange} />
+                        <input type="text" className="form-control" placeholder="CEP" name="cep" value={state.enderecos[0].cep} onChange={handleEnderecoChange} />
                     </div>
                     <h3>Documentos</h3>
-                    {state.Documentos.map((documento, index) => (
+                    {state.documentos.map((documento, index) => (
                         <div key={index}>
-                            <h4 className="d-flex justify-content-start gap-2">{documento.tipo}</h4>
+                            <h4 className="d-flex justify-content-start gap-2">{documento.tipo_documento}</h4>
                             <label>Número</label>
                             <div className="input-group mb-3">
-                                <input type="text" className="form-control" placeholder="Número" name="numero" value={documento.numero} onChange={event => handleDocumentoChange(index, event)} />
+                                {documento.tipo_documento === 'CPF' ? (
+                                    <InputMask
+                                        mask="999.999.999-99"
+                                        className="form-control"
+                                        placeholder="Número do CPF"
+                                        name="numero_documento"
+                                        value={documento.numero_documento}
+                                        onChange={event => handleDocumentoChange(index, event)}
+                                    />
+                                ) : (
+                                    <InputMask
+                                        mask="99.999.999-9"
+                                        className="form-control"
+                                        placeholder="Número do RG"
+                                        name="numero_documento"
+                                        value={documento.numero_documento}
+                                        onChange={event => handleDocumentoChange(index, event)}
+                                    />
+                                )}
                             </div>
                             <label>Data de Emissão</label>
                             <div className="input-group mb-3">
-                                <input type="date" className="form-control" name="dataEmissao" value={documento.dataEmissao} onChange={event => handleDocumentoChange(index, event)} />
+                                <input
+                                    type="date"
+                                    className="form-control"
+                                    name="data_expedicao"
+                                    value={documento.data_expedicao}
+                                    onChange={event => handleDocumentoChange(index, event)}
+                                />
                             </div>
                         </div>
                     ))}
@@ -138,10 +240,7 @@ export default function EditarCliente() {
                     </div>
                 </form>
             </div>
-            <ToastContainer
-                position="top-center"
-                theme="dark"
-            />
+            <ToastContainer position="top-center" theme="dark" />
         </div>
-    )
+    );
 }

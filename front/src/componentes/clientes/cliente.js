@@ -67,7 +67,6 @@ export default function Cliente() {
                 {
                     label: 'Sim',
                     onClick: () => {
-
                         deletarCliente();
                         
                         const notify = () => toast.success("Cliente deletado com sucesso!");
@@ -88,18 +87,22 @@ export default function Cliente() {
         window.location.href = `/editarcliente/${id}`;
     };
 
+    const formatDocumento = (tipo, numero) => {
+        if (tipo === "CPF") {
+            return numero.replace(/^(\d{3})(\d{3})(\d{3})(\d{2})$/, "$1.$2.$3-$4");
+        } else if (tipo === "RG") {
+            return numero.replace(/^(\d{2})(\d{3})(\d{3})(\d{1})$/, "$1.$2.$3-$4");
+        }
+        return numero; 
+    };
+
     if (!cliente) {
         return <p>Carregando...</p>;
     }
 
     const tipoCliente = () => {
-        if (cliente.titular_id === null) {
-            return 'Titular';
-        } else {
-            return 'Dependente';
-    }
-
-    }
+        return cliente.titular_id === null ? 'Titular' : 'Dependente';
+    };
 
     // eslint-disable-next-line react-hooks/rules-of-hooks
     useEffect(() => {
@@ -164,7 +167,7 @@ export default function Cliente() {
                 {cliente.documentos.map((documento, index) => (
                     <div key={index}>
                         <p><strong>Tipo:</strong> {documento.tipo_documento}</p>
-                        <p><strong>Número:</strong> {documento.numero_documento}</p>
+                        <p><strong>Número:</strong> {formatDocumento(documento.tipo_documento, documento.numero_documento)}</p>
                         <p><strong>Data de Emissão:</strong> {new Date(documento.data_expedicao).toLocaleDateString()}</p>
                     </div>
                 ))}

@@ -1,6 +1,7 @@
 import React from "react";
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import BarraNavegacao from "./barraNavegacao";
+import Footer from "./footer";
 import Home from "./home";
 import Cliente from "./clientes/cliente";
 import ListaClientes from "./clientes/listaClientes";
@@ -16,29 +17,34 @@ import ListaHospedesAcomodacao from "./listagens/listaHospedesAcomodacao";
 export default function Roteador() {
     return (
         <Router>
-            <BarraNavegacao />
-            <Routes>
-                {/* HOME */}
-                <Route path="/" element={<Home />} />
+            <div className="app-container">
+                <BarraNavegacao />
+                <div className="content-wrap">
+                    <Routes>
+                        {/* HOME */}
+                        <Route path="/" element={<Home />} />
 
-                {/* CLIENTES */}
-                <Route path="/clientes" element={<ListaClientes />} />
-                <Route path="/cliente/:id" element={<Cliente />} />
-                <Route path="/editarcliente/:id" element={<EditarCliente />} />
+                        {/* CLIENTES */}
+                        <Route path="/clientes" element={<ListaClientes />} />
+                        <Route path="/cliente/:id" element={<Cliente />} />
+                        <Route path="/editarcliente/:id" element={<EditarCliente />} />
 
-                {/* CADASTRAR CLIENTE */}
-                <Route path="/cadastrocliente" element={<CadastroCliente />} />
+                        {/* CADASTRAR CLIENTE */}
+                        <Route path="/cadastrocliente" element={<CadastroCliente />} />
 
-                {/* HOSPEDAGEM */}
-                <Route path="/vinculo" element={<VinculoClienteAcomodacao /> } />
+                        {/* HOSPEDAGEM */}
+                        <Route path="/vinculo" element={<VinculoClienteAcomodacao />} />
 
-                {/* LISTAGENS */}
-                <Route path="/listagens" element={<ListaListagens />} />
-                <Route path="/dependendentestitular" element={<ListaDependentesTitular />} />
-                <Route path="/titulardependentes" element={<ListaTitularDependentes />} />
-                <Route path="/acomodacoes" element={<ListaAcomodacoes />} />
-                <Route path="/hospedesacomodacao" element={<ListaHospedesAcomodacao />} />
-            </Routes>
+                        {/* LISTAGENS */}
+                        <Route path="/listagens" element={<ListaListagens />} />
+                        <Route path="/dependendentestitular" element={<ListaDependentesTitular />} />
+                        <Route path="/titulardependentes" element={<ListaTitularDependentes />} />
+                        <Route path="/acomodacoes" element={<ListaAcomodacoes />} />
+                        <Route path="/hospedesacomodacao" element={<ListaHospedesAcomodacao />} />
+                    </Routes>
+                </div>
+                <Footer />
+            </div>
         </Router>
     )
 }
