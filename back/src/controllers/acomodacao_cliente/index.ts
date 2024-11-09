@@ -1,4 +1,4 @@
-import { Request, Response } from 'express';
+import { NextFunction, Request, Response } from 'express';
 import { Transaction, Op } from 'sequelize';
 import AcomodacaoCliente from '../../models/acomodacao_cliente';
 import Cliente from '../../models/clientes';
@@ -42,7 +42,7 @@ class AcomodacaoClienteController {
   }
 
   // Método para verificar o limite de acomodados na acomodação
-  async verificaLimiteAcomodacao(req: Request, res: Response) {
+  async verificaLimiteAcomodacao(req: Request, res: Response, next: NextFunction) {
     try {
       const { acomodacao_id } = req.params;
       const acomodacao = await Acomodacao.findByPk(acomodacao_id);
@@ -54,7 +54,7 @@ class AcomodacaoClienteController {
       const limiteAtingido = acomodadosCount == acomodacao.limite_acomodados;
       res.status(200).json({ limiteAtingido });
     } catch (error) {
-      res.status(500).json({ error: 'Erro ao verificar o limite de acomodação: ' + error });
+      next(error);
     }
   }
 
@@ -67,6 +67,22 @@ class AcomodacaoClienteController {
       res.status(200).json(acomodacoesClientes);
     } catch (error) {
       res.status(500).json({ error: 'Erro ao obter acomodações de clientes: ' + error });
+    }
+  }
+
+  // Método para obter os clientes acomodados por acomodação
+  async getClientesByAcomodacao(req: Request, res: Response) {
+    try {
+      const { acomodacao_id } = req.params;
+      const acomodacoesClientes = await AcomodacaoCliente.findAll({
+        where: { acomodacao_id },
+        attributes: ['cliente_id'],
+      });
+
+      const clienteIds = acomodacoesClientes.map(ac => ac.cliente_id);
+      res.status(200).json(clienteIds);
+    } catch (error) {
+      res.status(500).json({ error: 'Erro ao obter clientes por acomodação: ' + error });
     }
   }
 

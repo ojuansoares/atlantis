@@ -10,6 +10,8 @@ import './models/enderecos';
 import './models/documentos';
 import './models/acomodacoes';
 import './models/acomodacao_cliente';
+import Acomodacao from './models/acomodacoes';
+import Cliente from './models/clientes';
 import { setupAssociations } from './models/associacoes';
 import * as dotenv from 'dotenv';
 
@@ -37,10 +39,15 @@ const init = async () => {
     await sequelize.sync({ force: false });
     console.log('Tabelas sincronizadas com sucesso.');
 
+    await Acomodacao.criarAcomodacoesPadrao();
+
+    await Cliente.criarClientesPadrao();
+
     const PORT = process.env.DB_PORT;
     app.listen(PORT, () => {
       console.log(`Servidor rodando na porta ${PORT}`);
-    });
+    });    
+
   } catch (error) {
     console.error('Erro ao iniciar a aplicação:', error);
   }
