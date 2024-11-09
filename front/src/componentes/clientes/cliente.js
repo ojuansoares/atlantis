@@ -4,7 +4,7 @@ import "../../index.css";
 import "../../styles/bg13.css";
 import { confirmAlert } from 'react-confirm-alert';
 import 'react-confirm-alert/src/react-confirm-alert.css';
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 export default function Cliente() {
@@ -195,7 +195,6 @@ export default function Cliente() {
                 </div>
 
             </div>
-            <ToastContainer position="top-center" theme="dark" />
         </div>
     );
 }

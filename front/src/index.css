@@ -7,16 +7,22 @@ html, body {
   display: flex;
   flex-direction: column;
   min-height: 110vh;
+  z-index: 1;
+  position: relative;
 }
 
 .content-wrap {
   flex: 1;
+  z-index: 1;
+  position: relative;
 }
 
 footer {
   background-color: black;
   color: white;
   padding: 1rem;
+  z-index: 1;
+  position: relative;
 }
 
 body {
@@ -101,6 +107,10 @@ select option {
 .navbar {
   margin-bottom: 5vh !important;
   width: 100% !important;
+}
+
+.custom-toast-container {
+  z-index: 10 !important;
 }
 
 .navbar-toggler {
@@ -212,4 +222,7 @@ p {
     font-size: 2vh;
   }
 
+  /* .custom-toast-container {
+    margin-top: 15vh;
+  } */
 }

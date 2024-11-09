@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import InputMask from 'react-input-mask';
 import "../../index.css"
 import "../../styles/bg10.css"
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 export default function CadastroCliente() {
@@ -430,10 +430,6 @@ export default function CadastroCliente() {
                     </div>
                 </form>
             </div>
-            <ToastContainer
-                position="top-center"
-                theme="dark"
-            />
         </div>
     )
 }

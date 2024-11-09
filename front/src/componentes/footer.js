@@ -9,8 +9,8 @@ export default function Footer() {
             <div className="container">
                 <div className="row">
                     <div className="col-md-4 mb-4">
-                        <img className="logo mb-2" src={logo} alt="PetLovers" />
-                        <p>© 2024 PetLovers. Todos os direitos reservados.</p>
+                        <img className="logo mb-2" src={logo} alt="Atlantis" />
+                        <p>© 2024 Atlantis. Todos os direitos reservados.</p>
                     </div>
                     <div className="col-md-4 mb-4">
                         <h5>Acesso Rápido</h5>
@@ -23,9 +23,9 @@ export default function Footer() {
                     </div>
                     <div className="col-md-4 mb-4">
                         <h5>Entre em Contato</h5>
-                        <p>Email: support@petlovers.com</p>
+                        <p>Email: support@atlantis.com</p>
                         <p>Phone: (123) 456-7890</p>
-                        <p>Address: 123 Pet Street, Pet City, PC 12345</p>
+                        <p>Address: 123 Atlantis Street, Water City, ATL 12345</p>
                     </div>
                 </div>
             </div>

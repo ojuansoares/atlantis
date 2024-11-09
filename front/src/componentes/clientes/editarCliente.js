@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import InputMask from 'react-input-mask';
 import "../../index.css";
 import "../../styles/bg13.css";
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useParams } from 'react-router-dom';
 
@@ -240,7 +240,6 @@ export default function EditarCliente() {
                     </div>
                 </form>
             </div>
-            <ToastContainer position="top-center" theme="dark" />
         </div>
     );
 }

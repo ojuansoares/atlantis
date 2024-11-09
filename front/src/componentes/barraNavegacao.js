@@ -5,7 +5,7 @@ import logo from '../public/logo.png';
 
 export default function BarraNavegacao() {
     return (
-        <nav className="navbar navbar-expand-lg d-flex bg_navbar fixed-top" data-bs-theme="dark">
+        <nav className="navbar navbar-expand-lg d-flex bg_navbar fixed-top" data-bs-theme="dark" style={{ zIndex: 5 }}>
             <div className="container-nav">
                 <a className="navbar-brand" href="/">
                     <img className="logo" src={logo} alt="PetLovers" />

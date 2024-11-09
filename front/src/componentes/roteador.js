@@ -1,5 +1,6 @@
 import React from "react";
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { ToastContainer } from "react-toastify";
 import BarraNavegacao from "./barraNavegacao";
 import Footer from "./footer";
 import Home from "./home";
@@ -19,6 +20,11 @@ export default function Roteador() {
         <Router>
             <div className="app-container">
                 <BarraNavegacao />
+                <ToastContainer 
+                    className="custom-toast-container"
+                    position="top-center"
+                    theme="dark"
+                />
                 <div className="content-wrap">
                     <Routes>
                         {/* HOME */}
