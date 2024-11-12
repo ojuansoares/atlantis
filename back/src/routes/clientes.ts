@@ -11,5 +11,6 @@ router.put('/atualizar-cliente/:id', ClientesController.update);
 router.delete('/deletar-cliente/:id', ClientesController.delete);
 
 router.post('/verificar-documento', ClientesController.verificaDocumento);
+router.get('/dependentes-por-titular', ClientesController.getAllTitularesComDependentes);
 
 export default router;

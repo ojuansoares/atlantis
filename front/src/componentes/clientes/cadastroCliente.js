@@ -13,7 +13,7 @@ export default function CadastroCliente() {
     const [dataNascimento, setDataNascimento] = useState('');
     const [cpf, setCpf] = useState('');
     const [dataEmissaoCpf, setDataEmissaoCpf] = useState('');
-    const [documentos, setDocumentos] = useState([{ tipo: 'RG', numero: '', dataEmissao: '' }]);
+    const [documentos, setDocumentos] = useState([]);
     const [telefones, setTelefones] = useState([{ ddd: '', numero: '' }]);
     const [enderecos, setEnderecos] = useState([{ rua: '', bairro: '', cidade: '', estado: '', pais: '', cep: '' }]);
     const [titular, setTitular] = useState('');
@@ -86,10 +86,8 @@ export default function CadastroCliente() {
     }
 
     const removeDocumento = () => {
-        if (documentos.length > 1) {
+        if (documentos.length >= 1) {
             setDocumentos(documentos.slice(0, -1));
-        } else {
-            toast.error("Você deve ter pelo menos um documento.");
         }
     }
 
@@ -157,7 +155,7 @@ export default function CadastroCliente() {
     useEffect(() => {
         const postCliente = async () => {
 
-            const documentosComCpf = [...documentos, { tipo: 'CPF', numero: cpf, dataEmissao: dataEmissaoCpf }];
+            const documentosComCpf = [...documentos, { tipo: 'CPF', numero: cpf.replace(/\D/g, ''), dataEmissao: dataEmissaoCpf }];
 
             const cliente = {
                 nome,
@@ -170,6 +168,8 @@ export default function CadastroCliente() {
             };
 
             const isNumeric = (str) => /^\d+$/.test(str);
+
+            console.log(JSON.stringify(cliente));
 
             for (let doc of documentosComCpf) {
                 if (!isNumeric(doc.numero)) {

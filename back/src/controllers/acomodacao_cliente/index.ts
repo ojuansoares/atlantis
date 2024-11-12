@@ -86,6 +86,27 @@ class AcomodacaoClienteController {
     }
   }
 
+  // Método para obter os vínculos por acomodação
+  async getVinculosPorAcomodacao(req: Request, res: Response) {
+    try {
+      const acomodacoesClientes = await AcomodacaoCliente.findAll({
+        attributes: ['acomodacao_id', 'cliente_id'],
+      });
+
+      const vinculosPorAcomodacao = acomodacoesClientes.reduce((acc: Record<number, number[]>, ac) => {
+        if (!acc[ac.acomodacao_id]) {
+          acc[ac.acomodacao_id] = [];
+        }
+        acc[ac.acomodacao_id].push(ac.cliente_id);
+        return acc;
+      }, {});
+
+      res.status(200).json(vinculosPorAcomodacao);
+    } catch (error) {
+      res.status(500).json({ error: 'Erro ao obter vínculos por acomodação: ' + error });
+    }
+  }
+
   // Método para obter uma acomodação de cliente por ID
   async getById(req: Request, res: Response) {
     try {

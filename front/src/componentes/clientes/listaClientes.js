@@ -42,6 +42,10 @@ export default function ListaClientes() {
         }
     });
 
+    const formatarCPF = (cpf) => {
+        return cpf.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, '$1.$2.$3-$4');
+    };
+
     return (
         <div>
             <div className="bg13"></div>
@@ -70,7 +74,7 @@ export default function ListaClientes() {
                                     href={`/cliente/${cliente.id}`} 
                                     className="list-group-item list-group-item-action d-flex justify-content-between"
                                 >
-                                    {cliente.nome} | {cpfDocumento ? cpfDocumento.numero_documento : 'CPF não encontrado'}
+                                    {cliente.nome} | {cpfDocumento ? formatarCPF(cpfDocumento.numero_documento) : 'CPF não encontrado'}
                                 </a>
                             );
                         })

@@ -13,6 +13,6 @@ router.delete('/desvincular-cliente/:acomodacao_id/:cliente_id', AcomodacaoClien
 router.get('/verifica-limite/:acomodacao_id', (req, res, next) => { AcomodacaoClienteController.verificaLimiteAcomodacao(req, res, next); });
 router.get('/verifica-cliente/:cliente_id', AcomodacaoClienteController.verificaClienteAcomodado);
 router.get('/clientes-por-acomodacao/:acomodacao_id', AcomodacaoClienteController.getClientesByAcomodacao);
-
+router.get('/listar-vinculos-por-acomodacao', AcomodacaoClienteController.getVinculosPorAcomodacao);
 
 export default router;

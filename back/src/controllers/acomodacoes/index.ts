@@ -38,6 +38,7 @@ class AcomodacoesController {
     }
   }
 
+  
   // Método para atualizar uma acomodação
   async update(req: Request, res: Response) {
     try {

@@ -1,42 +1,66 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "../../styles/bg6.css";
 import "../../index.css";
 
 export default function ListaDependentesTitular() {
-    const renderDependente = (nome, cpf, id) => {
+    const [titulares, setTitulares] = useState([]);
+
+    useEffect(() => {
+        fetch('http://localhost:5000/clientes/dependentes-por-titular')
+            .then(response => {
+                console.log('Response:', response);
+                return response.json();
+            })
+            .then(data => setTitulares(data))
+            .catch(error => console.error('Erro ao obter titulares com dependentes:', error));
+    }, []);
+
+    const getCpf = (documentos) => {
+        const cpfDoc = documentos.find(doc => doc.tipo_documento === "CPF");
+        return cpfDoc ? formatarCPF(cpfDoc.numero_documento) : "CPF não encontrado";
+    };
+
+    const formatarCPF = (cpf) => {
+        return cpf.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, '$1.$2.$3-$4');
+    };
+
+    const renderDependente = (dependente) => {
         return (
             <a 
-                key={id} 
-                href={`/dependente/${id}`} 
+                key={dependente.id} 
+                href={`/cliente/${dependente.id}`} 
                 className="list-group-item list-group-item-action d-flex justify-content-between"
             >
-                {nome} | {cpf}
+                {dependente.nome} | {getCpf(dependente.documentos)}
             </a>
         );
     };
 
-    const renderTitular = (nome, cpf, dependentes, id) => {
+    const renderTitular = (titular) => {
         return (
-            <div>
+            <div key={titular.id}>
                 <div className="d-flex flex-column">
-                <strong>Titular:</strong>
-                <div className="list-group  mt-2 mb-2">
-                    <a 
-                        href={`/titular/${id}`} 
-                        className="list-group-item list-group-item-action d-flex justify-content-between"
-                    >
-                        {nome} | {cpf}
-                    </a>
-                </div>
+                    <strong>Titular:</strong>
+                    <div className="list-group mt-2 mb-1">
+                        <a
+                            href={`/cliente/${titular.id}`}
+                            className="list-group-item list-group-item-action d-flex justify-content-between"
+                        >
+                            {titular.nome} | {getCpf(titular.documentos)}
+                        </a>
+                    </div>
                 </div>
                 <div className="d-flex flex-column">
                     <strong>Dependentes:</strong>
-                    <div className="list-group mt-2">
-                        {dependentes.map((dependente) => (
-                            renderDependente(dependente.nome, dependente.cpf, dependente.id)
-                        ))}
+                    <div className="list-group mt-2 mb-2">
+                        {Array.isArray(titular.dependentes) && titular.dependentes.length > 0 ? (
+                            titular.dependentes.map(dependente => renderDependente(dependente))
+                        ) : (
+                            <p>Não há dependentes</p>
+                        )}
                     </div>
                 </div>
+                <hr></hr>
             </div>
         );
     };
@@ -47,17 +71,7 @@ export default function ListaDependentesTitular() {
             <div className="container-fluid fundo-escuro">
                 <h2>Listagem de Dependentes por Titular</h2>
                 <hr></hr>
-                
-                    {renderTitular("Joaozinho", "8765432", [{ id: 1, nome: "Sheila", cpf: "1245654321" }], 1)}
-
-                    <hr></hr>
-
-                    {renderTitular("Paulinho", "1234567", [{ id: 2, nome: "Marcos", cpf: "2345678901" }, { id: 3, nome: "Talita", cpf: "3456789012" }], 2)}
-
-                    <hr></hr>
-
-                    {renderTitular("Pedrinho", "2345678", [{ id: 4, nome: "Renato", cpf: "4567890123" }], 3)}
-                
+                {titulares.map(titular => renderTitular(titular))}
             </div>
         </div>
     );

@@ -1,69 +1,29 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "../../styles/bg9.css";
 import "../../index.css";
 
 export default function ListaAcomodacoes() {
-    const acomodacoes = [
-        {
-            nomenclatura: "Acomodação simples para casal",
-            leitosSolteiros: 0,
-            leitosCasais: 1,
-            climatizacao: "sim",
-            garagens: 1,
-            suites: 1
-        },
-        {
-            nomenclatura: "Acomodação para família com até duas crianças",
-            leitosSolteiros: 2,
-            leitosCasais: 1,
-            climatizacao: "sim",
-            garagens: 1,
-            suites: 1
-        },
-        {
-            nomenclatura: "Acomodação para família com até cinco crianças",
-            leitosSolteiros: 5,
-            leitosCasais: 1,
-            climatizacao: "sim",
-            garagens: 2,
-            suites: 2
-        },
-        {
-            nomenclatura: "Acomodação para até duas famílias, casal e três crianças cada",
-            leitosSolteiros: 6,
-            leitosCasais: 2,
-            climatizacao: "sim",
-            garagens: 2,
-            suites: 3
-        },
-        {
-            nomenclatura: "Acomodação simples para solteiro(a)",
-            leitosSolteiros: 1,
-            leitosCasais: 0,
-            climatizacao: "sim",
-            garagens: 0,
-            suites: 1
-        },
-        {
-            nomenclatura: "Acomodação com garagem para solteiro(a)",
-            leitosSolteiros: 0,
-            leitosCasais: 1,
-            climatizacao: "sim",
-            garagens: 1,
-            suites: 1
-        }
-    ];
+    const [acomodacoes, setAcomodacoes] = useState([]);
+
+    useEffect(() => {
+        fetch('http://localhost:5000/acomodacoes/listar-acomodacoes')
+            .then(response => response.json())
+            .then(data => setAcomodacoes(data))
+            .catch(error => console.error('Erro ao obter acomodações:', error));
+    }, []);
 
     const renderAcomodacao = (acomodacao) => {
         return (
-            <div className="list-group-item list-group-item-action d-flex justify-content-between" key={acomodacao.nomenclatura}>
+            <div className="list-group-item list-group-item-action d-flex justify-content-between" key={acomodacao.id}>
                 <div>
-                    <p><strong>Nomenclatura:</strong> <span className="item-text">{acomodacao.nomenclatura}</span></p>
+                    <p><strong>Nome:</strong> <span className="item-text">{acomodacao.nome}</span></p>
+                    <p><strong>Descrição:</strong> <span className="item-text">{acomodacao.descricao}</span></p>
+                    <p><strong>Limite de Acomodados:</strong> <span className="quantidade-text">{acomodacao.limite_acomodados}</span></p>
                     <p><strong>Quantidade de leitos para solteiros:</strong> <span className="quantidade-text">{acomodacao.leitosSolteiros}</span></p>
                     <p><strong>Quantidade de leitos para casais:</strong> <span className="quantidade-text">{acomodacao.leitosCasais}</span></p>
-                    <p><strong>Climatização:</strong> <span className="quantidade-text">{acomodacao.climatizacao}</span></p>
+                    <p><strong>Climatização:</strong> <span className="quantidade-text">{acomodacao.climatizacao ? 'Sim' : 'Não'}</span></p>
                     <p><strong>Quantidade de garagens disponíveis:</strong> <span className="quantidade-text">{acomodacao.garagens}</span></p>
-                    <p><strong>Quantidade de suites:</strong> <span className="quantidade-text">{acomodacao.suites}</span></p>
+                    <p><strong>Quantidade de suítes:</strong> <span className="quantidade-text">{acomodacao.suites}</span></p>
                 </div>
             </div>
         );

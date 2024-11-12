@@ -14,140 +14,140 @@ class Cliente extends Model {
   public static async criarClientesPadrao() {
     const clientesPadrao = [
       {
-        nome: "João Silva",
-        nome_social: "João S.",
-        data_nascimento: "1990-01-01",
-        titular_id: null,
-        telefones: [
-          { DDD: "11", numero: "987654321" },
-          { DDD: "21", numero: "912345678" }
-        ],
-        enderecos: [
-          {
-            rua: "Rua Exemplo",
-            bairro: "Bairro Exemplo",
-            cidade: "Cidade Exemplo",
-            estado: "Estado Exemplo",
-            pais: "Brasil",
-            cep: "12345-678"
-          }
-        ],
-        documentos: [
-          { tipo_documento: "CPF", numero_documento: "123.456.789-00", data_expedicao: "2010-01-01" },
-          { tipo_documento: "RG", numero_documento: "12.345.678-6", data_expedicao: "2005-01-01" }
-        ]
+      nome: "João Silva",
+      nome_social: "João S.",
+      data_nascimento: "1990-01-01",
+      titular_id: null,
+      telefones: [
+        { DDD: "11", numero: "987654321" },
+        { DDD: "21", numero: "912345678" }
+      ],
+      enderecos: [
+        {
+        rua: "Rua Exemplo",
+        bairro: "Bairro Exemplo",
+        cidade: "Cidade Exemplo",
+        estado: "Estado Exemplo",
+        pais: "Brasil",
+        cep: "12345678"
+        }
+      ],
+      documentos: [
+        { tipo_documento: "CPF", numero_documento: "12345678900", data_expedicao: "2010-01-01" },
+        { tipo_documento: "RG", numero_documento: "123456786", data_expedicao: "2005-01-01" }
+      ]
       },
       {
-        nome: "Maria Oliveira",
-        nome_social: "Maria O.",
-        data_nascimento: "1985-05-15",
-        titular_id: null,
-        telefones: [
-          { DDD: "31", numero: "987654321" }
-        ],
-        enderecos: [
-          {
-            rua: "Rua Exemplo 2",
-            bairro: "Bairro Exemplo 2",
-            cidade: "Cidade Exemplo 2",
-            estado: "Estado Exemplo 2",
-            pais: "Brasil",
-            cep: "23456-789"
-          }
-        ],
-        documentos: [
-          { tipo_documento: "CPF", numero_documento: "234.567.890-01", data_expedicao: "2011-02-02" },
-          { tipo_documento: "RG", numero_documento: "23.456.789-2", data_expedicao: "2006-02-02" }
-        ]
+      nome: "Maria Oliveira",
+      nome_social: "Maria O.",
+      data_nascimento: "1985-05-15",
+      titular_id: null,
+      telefones: [
+        { DDD: "31", numero: "987654321" }
+      ],
+      enderecos: [
+        {
+        rua: "Rua Exemplo 2",
+        bairro: "Bairro Exemplo 2",
+        cidade: "Cidade Exemplo 2",
+        estado: "Estado Exemplo 2",
+        pais: "Brasil",
+        cep: "23456789"
+        }
+      ],
+      documentos: [
+        { tipo_documento: "CPF", numero_documento: "23456789001", data_expedicao: "2011-02-02" },
+        { tipo_documento: "RG", numero_documento: "234567892", data_expedicao: "2006-02-02" }
+      ]
       },
       {
-        nome: "Carlos Pereira",
-        nome_social: "Carlos P.",
-        data_nascimento: "1975-10-20",
-        titular_id: null,
-        telefones: [
-          { DDD: "41", numero: "987654321" }
-        ],
-        enderecos: [
-          {
-            rua: "Rua Exemplo 3",
-            bairro: "Bairro Exemplo 3",
-            cidade: "Cidade Exemplo 3",
-            estado: "Estado Exemplo 3",
-            pais: "Brasil",
-            cep: "34567-890"
-          }
-        ],
-        documentos: [
-          { tipo_documento: "CPF", numero_documento: "345.678.901-02", data_expedicao: "2012-03-03" },
-          { tipo_documento: "RG", numero_documento: "34.567.890-1", data_expedicao: "2007-03-03" }
-        ]
+      nome: "Carlos Pereira",
+      nome_social: "Carlos P.",
+      data_nascimento: "1975-10-20",
+      titular_id: null,
+      telefones: [
+        { DDD: "41", numero: "987654321" }
+      ],
+      enderecos: [
+        {
+        rua: "Rua Exemplo 3",
+        bairro: "Bairro Exemplo 3",
+        cidade: "Cidade Exemplo 3",
+        estado: "Estado Exemplo 3",
+        pais: "Brasil",
+        cep: "34567890"
+        }
+      ],
+      documentos: [
+        { tipo_documento: "CPF", numero_documento: "34567890102", data_expedicao: "2012-03-03" },
+        { tipo_documento: "RG", numero_documento: "345678901", data_expedicao: "2007-03-03" }
+      ]
       },
       {
-        nome: "Ana Silva",
-        nome_social: "Ana S.",
-        data_nascimento: "2010-01-01",
-        titular_id: 1,
-        telefones: [
-          { DDD: "11", numero: "987654322" }
-        ],
-        enderecos: [
-          {
-            rua: "Rua Exemplo",
-            bairro: "Bairro Exemplo",
-            cidade: "Cidade Exemplo",
-            estado: "Estado Exemplo",
-            pais: "Brasil",
-            cep: "12345-678"
-          }
-        ],
-        documentos: [
-          { tipo_documento: "CPF", numero_documento: "456.789.012-03", data_expedicao: "2020-01-01" }
-        ]
+      nome: "Ana Silva",
+      nome_social: "Ana S.",
+      data_nascimento: "2010-01-01",
+      titular_id: 1,
+      telefones: [
+        { DDD: "11", numero: "987654322" }
+      ],
+      enderecos: [
+        {
+        rua: "Rua Exemplo",
+        bairro: "Bairro Exemplo",
+        cidade: "Cidade Exemplo",
+        estado: "Estado Exemplo",
+        pais: "Brasil",
+        cep: "12345678"
+        }
+      ],
+      documentos: [
+        { tipo_documento: "CPF", numero_documento: "45678901203", data_expedicao: "2020-01-01" }
+      ]
       },
       {
-        nome: "Pedro Oliveira",
-        nome_social: "Pedro O.",
-        data_nascimento: "2015-05-15",
-        titular_id: 2,
-        telefones: [
-          { DDD: "31", numero: "987654323" }
-        ],
-        enderecos: [
-          {
-            rua: "Rua Exemplo 2",
-            bairro: "Bairro Exemplo 2",
-            cidade: "Cidade Exemplo 2",
-            estado: "Estado Exemplo 2",
-            pais: "Brasil",
-            cep: "23456-789"
-          }
-        ],
-        documentos: [
-          { tipo_documento: "CPF", numero_documento: "567.890.123-04", data_expedicao: "2021-02-02" }
-        ]
+      nome: "Pedro Oliveira",
+      nome_social: "Pedro O.",
+      data_nascimento: "2015-05-15",
+      titular_id: 2,
+      telefones: [
+        { DDD: "31", numero: "987654323" }
+      ],
+      enderecos: [
+        {
+        rua: "Rua Exemplo 2",
+        bairro: "Bairro Exemplo 2",
+        cidade: "Cidade Exemplo 2",
+        estado: "Estado Exemplo 2",
+        pais: "Brasil",
+        cep: "23456789"
+        }
+      ],
+      documentos: [
+        { tipo_documento: "CPF", numero_documento: "56789012304", data_expedicao: "2021-02-02" }
+      ]
       },
       {
-        nome: "Lucas Pereira",
-        nome_social: "Lucas P.",
-        data_nascimento: "2018-10-20",
-        titular_id: 3,
-        telefones: [
-          { DDD: "41", numero: "987654324" }
-        ],
-        enderecos: [
-          {
-            rua: "Rua Exemplo 3",
-            bairro: "Bairro Exemplo 3",
-            cidade: "Cidade Exemplo 3",
-            estado: "Estado Exemplo 3",
-            pais: "Brasil",
-            cep: "34567-890"
-          }
-        ],
-        documentos: [
-          { tipo_documento: "CPF", numero_documento: "678.901.234-05", data_expedicao: "2022-03-03" }
-        ]
+      nome: "Lucas Pereira",
+      nome_social: "Lucas P.",
+      data_nascimento: "2018-10-20",
+      titular_id: 3,
+      telefones: [
+        { DDD: "41", numero: "987654324" }
+      ],
+      enderecos: [
+        {
+        rua: "Rua Exemplo 3",
+        bairro: "Bairro Exemplo 3",
+        cidade: "Cidade Exemplo 3",
+        estado: "Estado Exemplo 3",
+        pais: "Brasil",
+        cep: "34567890"
+        }
+      ],
+      documentos: [
+        { tipo_documento: "CPF", numero_documento: "67890123405", data_expedicao: "2022-03-03" }
+      ]
       }
     ];
 

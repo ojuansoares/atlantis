@@ -96,7 +96,36 @@ class ClientesController {
     }
   }
 
+  async getAllTitularesComDependentes(req: Request, res: Response) {
+    try {
+        const titulares = await Cliente.findAll({
+            where: { titular_id: null },
+            include: [{ model: Documento, as: 'documentos' }],
+        });
 
+        const titularesVerificados = await Promise.all(
+            titulares.map(async (titular) => {
+                const dependentes = await Cliente.findAll({
+                    where: { titular_id: titular.id },
+                    include: [{ model: Documento, as: 'documentos' }],
+                });
+                return { titular, dependentes, hasDependentes: dependentes.length > 0 };
+            })
+        );
+
+        const titularesComDependentesInfo = titularesVerificados
+            .filter(result => result.hasDependentes)
+            .map(result => ({
+                ...result.titular.toJSON(),
+                dependentes: result.dependentes
+            }));
+
+        res.status(200).json(titularesComDependentesInfo);
+    } catch (error) {
+        res.status(500).json({ error: 'Erro ao obter titulares com dependentes: ' + error });
+    }
+  }
+  
   // Método para atualizar um cliente
   async update(req: Request, res: Response) {
     const transaction: Transaction = await sequelize.transaction();

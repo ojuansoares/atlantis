@@ -1,42 +1,63 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "../../styles/bg7.css";
 import "../../index.css";
 
 export default function ListaTitularDependentes() {
-    const renderTitular = (nome, cpf, id) => {
+    const [titulares, setTitulares] = useState([]);
+
+    useEffect(() => {
+        fetch('http://localhost:5000/clientes/dependentes-por-titular')
+            .then(response => {
+                console.log('Response:', response);
+                return response.json();
+            })
+            .then(data => setTitulares(data))
+            .catch(error => console.error('Erro ao obter titulares com dependentes:', error));
+    }, []);
+
+    const getCpf = (documentos) => {
+        const cpfDoc = documentos.find(doc => doc.tipo_documento === "CPF");
+        return cpfDoc ? formatarCPF(cpfDoc.numero_documento) : "CPF não encontrado";
+    };
+
+    const formatarCPF = (cpf) => {
+        return cpf.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, '$1.$2.$3-$4');
+    };
+
+    const renderTitular = (titular) => {
         return (
             <a 
-                key={id} 
-                href={`/titular/${id}`} 
+                key={titular.id} 
+                href={`/cliente/${titular.id}`} 
                 className="list-group-item list-group-item-action d-flex justify-content-between"
             >
-                {nome} | {cpf}
+                {titular.nome} | {getCpf(titular.documentos)}
             </a>
         );
     };
 
-    const renderDependente = (nome, cpf, titular, id) => {
+    const renderDependente = (dependente, titular) => {
         return (
-            <>
-                <div>
-                    <div className="d-flex flex-column"></div>
+            <div key={dependente.id}>
+                <div className="d-flex flex-column">
                     <strong>Dependente:</strong>
                     <div className="list-group mt-2 mb-2">
                         <a
-                            href={`/dependente/${id}`}
+                            href={`/cliente/${dependente.id}`}
                             className="list-group-item list-group-item-action d-flex justify-content-between"
                         >
-                            {nome} | {cpf}
+                            {dependente.nome} | {getCpf(dependente.documentos)}
                         </a>
                     </div>
                 </div>
                 <div className="d-flex flex-column">
                     <strong>Titular:</strong>
                     <div className="list-group mt-2">
-                        {renderTitular(titular.nome, titular.cpf, titular.id)}
+                        {renderTitular(titular)}
                     </div>
                 </div>
-            </>
+                <hr></hr>
+            </div>
         );
     };
 
@@ -46,21 +67,9 @@ export default function ListaTitularDependentes() {
             <div className="container-fluid fundo-escuro">
                 <h2>Listagem de Titulares por Dependente</h2>
                 <hr></hr>
-                
-                {renderDependente("Sheila", "1245654321", { id: 1, nome: "Joaozinho", cpf: "8765432" }, 1)}
-
-                <hr></hr>
-
-                {renderDependente("Marcos", "2345678901", { id: 2, nome: "Paulinho", cpf: "1234567" }, 2)}
-
-                <hr></hr>
-
-                {renderDependente("Talita", "3456789012", { id: 2, nome: "Paulinho", cpf: "1234567" }, 3)}
-
-                <hr></hr>
-
-                {renderDependente("Renato", "4567890123", { id: 3, nome: "Pedrinho", cpf: "2345678" }, 4)}
-                
+                {titulares.map(titular => (
+                    titular.dependentes.map(dependente => renderDependente(dependente, titular))
+                ))}
             </div>
         </div>
     );

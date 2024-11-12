@@ -1,42 +1,82 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "../../styles/bg3.css";
 import "../../index.css";
 
 export default function ListaHospedesAcomodacao() {
-    const renderHospede = (nome, cpf, id, tipo) => {
+    const [acomodacoes, setAcomodacoes] = useState([]);
+    const [clientes, setClientes] = useState([]);
+    const [vinculos, setVinculos] = useState({});
+
+    useEffect(() => {
+        // Fetch acomodações
+        fetch('http://localhost:5000/acomodacoes/listar-acomodacoes')
+            .then(response => response.json())
+            .then(data => setAcomodacoes(data))
+            .catch(error => console.error('Erro ao obter acomodações:', error));
+
+        // Fetch clientes
+        fetch('http://localhost:5000/clientes/listar-clientes')
+            .then(response => response.json())
+            .then(data => setClientes(data))
+            .catch(error => console.error('Erro ao obter clientes:', error));
+
+        // Fetch vínculos
+        fetch('http://localhost:5000/acomodacao_cliente/listar-vinculos-por-acomodacao')
+            .then(response => response.json())
+            .then(data => setVinculos(data))
+            .catch(error => console.error('Erro ao obter vínculos:', error));
+    }, []);
+
+    const getCpf = (documentos) => {
+        const cpfDoc = documentos.find(doc => doc.tipo_documento === "CPF");
+        return cpfDoc ? formatarCPF(cpfDoc.numero_documento) : "CPF não encontrado";
+    };
+
+    const formatarCPF = (cpf) => {
+        return cpf.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, '$1.$2.$3-$4');
+    };
+
+    const renderHospede = (hospede) => {
         return (
             <a 
-                key={id} 
-                href={`/${tipo.toLowerCase()}/${id}`} 
+                key={hospede.id} 
+                href={`/cliente/${hospede.id}`} 
                 className="list-group-item list-group-item-action d-flex justify-content-between"
             >
-                {nome} | {cpf}
+                {hospede.nome} | {getCpf(hospede.documentos)}
             </a>
         );
     };
 
-    const renderAcomodacao = (nomeAcomodacao, hospedes, id) => {
+    const renderAcomodacao = (acomodacao, hospedes) => {
         return (
-            <div key={id}>
+            <div key={acomodacao.id}>
                 <div className="d-flex flex-column">
                     <strong>Acomodação:</strong>
                     <div className="list-group mt-2 mb-2">
                         <div className="list-group-item list-group-item-action d-flex justify-content-between">
-                            {nomeAcomodacao}
+                            {acomodacao.nome}
                         </div>
                     </div>
                 </div>
                 <div className="d-flex flex-column">
                     <strong>Hóspedes:</strong>
                     <div className="list-group mt-2">
-                        {hospedes.map((hospede) => (
-                            renderHospede(hospede.nome, hospede.cpf, hospede.id, hospede.tipo)
-                        ))}
+                        {hospedes.length > 0 ? (
+                            hospedes.map(hospede => renderHospede(hospede))
+                        ) : (
+                            <p>Não há hóspedes</p>
+                        )}
                     </div>
                 </div>
                 <hr></hr>
             </div>
         );
+    };
+
+    const getHospedes = (acomodacaoId) => {
+        const hospedesIds = vinculos[acomodacaoId] || [];
+        return hospedesIds.map(id => clientes.find(cliente => cliente.id === id)).filter(Boolean);
     };
 
     return (
@@ -45,19 +85,7 @@ export default function ListaHospedesAcomodacao() {
             <div className="container-fluid fundo-escuro">
                 <h2>Listagem de Hóspedes por Acomodação</h2>
                 <hr></hr>
-                
-                {renderAcomodacao("Acomodação simples para casal", [{ id: 1, nome: "Carlos", cpf: "1234567890", tipo: "Titular" }], 1)}
-
-                {renderAcomodacao("Acomodação para família com até duas crianças", [{ id: 2, nome: "Ana", cpf: "2345678901", tipo: "Titular" }, { id: 3, nome: "Bia", cpf: "3456789012", tipo: "Dependente" }], 2)}
-
-                {renderAcomodacao("Acomodação para família com até cinco crianças", [{ id: 4, nome: "Pedro", cpf: "4567890123", tipo: "Titular" }], 3)}
-
-                {renderAcomodacao("Acomodação para até duas famílias, casal e três crianças cada", [{ id: 5, nome: "João", cpf: "5678901234", tipo: "Titular" }, { id: 6, nome: "Maria", cpf: "6789012345", tipo: "Dependente" }], 4)}
-
-                {renderAcomodacao("Acomodação simples para solteiro(a)", [{ id: 7, nome: "Lucas", cpf: "7890123456", tipo: "Titular" }], 5)}
-
-                {renderAcomodacao("Acomodação com garagem para solteiro(a)", [{ id: 8, nome: "Fernanda", cpf: "8901234567", tipo: "Titular" }], 6)}
-                
+                {acomodacoes.map(acomodacao => renderAcomodacao(acomodacao, getHospedes(acomodacao.id)))}
             </div>
         </div>
     );
